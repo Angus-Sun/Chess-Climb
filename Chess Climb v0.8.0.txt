@@ -1327,6 +1327,7 @@ def draw(canvas):
             
     if current_scene == 'menu':
         menu_effects.fadein()
+        TALKING_SOUND.rewind()
         tutorial_sfx.fadeout()
         world_1_sfx.fadeout()
         canvas.draw_image(MENU_IMAGE, 
@@ -1672,19 +1673,3 @@ frame = simplegui.create_frame("Chess Climb", WIDTH, HEIGHT)
 frame.set_draw_handler(draw)
 frame.set_mouseclick_handler(mouse_click)
 frame.start()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
