@@ -1,25 +1,35 @@
-
 #A chess platformer game made by Angus Sun
-#Chess Climb Alpha 0.8.0
+#Chess Climb Alpha 1.0
 import simplegui, math, time
 #textures for backgrounds
+CHOOSEPIECE = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1119163809857290301/CHOOSEYOURPIECE.png?width=1280&height=720")
 WORLD1BGRD = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1102849462575038516/world1bgrd3.png?width=1280&height=720")
-
+WORLD2BGRD = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115379938980265994/CompressJPEG.online_1280x720-image.png?width=1280&height=720")
+SELECTIONBGRD = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1103184591482798080/levelselcltbgrd.png?width=1280&height=720")
+SELECTIONBGRD2 = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1119072696014217306/world2bgrd.png?width=1280&height=720")
+BLACK_CIRCLES = simplegui.load_image("https://i.ibb.co/k4YSHJd/spritesheet-2.png")
 CHESS_MOVES = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1107563797251620874/moveguide2.png?width=1280&height=720")
 CHESS_MOVES2 = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1107571836293763123/moveguide3.png?width=1280&height=720")
 CHESS_GUIDE_DIALOGUE_BOX = simplegui.load_image("https://media.discordapp.net/attachments/904942659792150580/1107512549932548137/chessclimbguidedefaultdialogue.png?width=1280&height=720")
 TUTORIAL_OVERLAY = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1107513757640446022/chessclimbblackoverlay.png?width=1280&height=720")
 #sound effects
+PIECE_UPGRADE = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1119528833507401799/y2mate.is_-_Pok_mon_Level_Up_Sound_Effect_-_No_Copyright_HD_-a55Bg_TfF8g-192k-1686986865.mp3")
 MOVE_SOUND 	= simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1107147007132442714/YOYOYO.mp3")
 DEATH_SOUND = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1107148509863477248/goofy_ahh_scream.mp3")
 BUTTON_SOUND = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1107150882572877855/buttonsound.mp3")
 WORLD1_MUSIC = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1107182500268216331/hatenovillage.mp3")
+WORLD2_MUSIC = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1119067725004820490/Ocarina-of-Time-Gerudo_Valley_extended.mp3")
 LEVEL_SELECT_MUSIC = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1107179707121815593/onlymp3.to_-_Miitopia_OST_-_Cottage-Lb-lJXLBWSo-256k-1656541717758.mp3")
 TALKING_SOUND = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1107546255703412837/onlymp3.to_-_Just_Sans_talking-TQqyArvAn4k-256k-1657490797433.mp3")
 CRATEBREAK = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1110356244876767302/onlymp3.to_-_Impact_Wood_Crack-_Sound_Effect_SFX-aONb6YffPT8-256k-1654092474711_1.mp3")
 CRATECRACK = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1110356396035293224/onlymp3.to_-_Impact_Wood_Crack-_Sound_Effect_SFX-aONb6YffPT8-256k-1654092474711_3.mp3")
 TUTORIAL_MUSIC = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1107210579350933564/onlymp3.to_-_Tutorial_Instrumental-yaAIfEvQPkE-256k-1659868494390.mp3")
+PRESSURE_PLATE_PRESSED = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1117610440000798860/pressureplate_pressed.mp3")
+PRESSURE_PLATE_RELEASED = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1117610439656870018/pressureplate_released.mp3")
+DOOR_OPEN = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1117611024900690110/onlymp3.to_-_Minecraft_-_Door_open_Sound_effect_HD-LZbqJbs7evs-256k-1655019128201.mp3")
+DOOR_CLOSE = simplegui.load_sound("https://cdn.discordapp.com/attachments/794098849739702282/1117661797395202149/tomp3.cc_-_Minecraft_Pressure_Plate_Sound_Effect_1.mp3")
 #textures for buttons
+NEWMOVE = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1119323636155826297/1200px-Square_gray.png?width=788&height=788")
 HINT_BUTTON = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1108110775710658660/hintbutton.png?width=960&height=383")
 GUIDE_BUTTON = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1107921788618428467/guidebutton3.png?width=788&height=788")
 NOTHING = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1107424744694882314/120px-Antonia_Sautter_Creations.png?width=107&height=107")
@@ -77,16 +87,16 @@ LVL15_COMPLETED = simplegui.load_image("https://media.discordapp.net/attachments
 LVL16_UNCOMPLETED = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1110979715558293514/level16uncompleted.png?width=788&height=788")
 LVL16_COMPLETED = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1110979715814129694/level16completed.png?width=572&height=572")
 
-SELECTIONBGRD = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1103184591482798080/levelselcltbgrd.png?width=1280&height=720")
+
 RESTART_BUTTON = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1094738235646804100/restart_button_.png?width=788&height=788")
 BACK_BUTTON = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1094738235432902818/back_button.png?width=788&height=788")
-CRATE1 = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1109719588398174349/crate1.png?width=230&height=230")
+CRATE1 = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1121243263760871535/crate1_2.png?width=230&height=230")
 CRATE2 = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1109719588133945485/crate2.png?width=230&height=230")
 #textures for chess pieces
 BLACK_KING = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1102856522058440734/bk2.png?width=788&height=788")
 BLACK_PAWN = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1094770976203477093/bP_2.png?width=788&height=788")
 WHITE_KING = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1102854292714565644/wk3.png?width=788&height=788")
-WHITE_PAWN = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1094770976878759966/wP_2.png?width=577&height=743")
+WHITE_PAWN = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1119118787623522324/wPawn.png?width=788&height=788")
 WHITE_QUEEN = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1094770977096876102/wQ_2.png?width=788&height=788")
 WHITE_ROOK = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1102854274326732840/wr2.png?width=788&height=788")
 WHITE_HORSE = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1096898599759130654/HORSE.png?width=788&height=788")
@@ -111,9 +121,27 @@ BOTTOM_LEFT_DIRT = simplegui.load_image("https://media.discordapp.net/attachment
 FLOAT_BOTTOMLEFT_DIRT = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1103053483856375849/floating_connected_bottom_left.png?width=140&height=140")
 FLOAT_BOTTOM_DIRT = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1103053483562762291/floating_connected_bottom.png?width=140&height=140")
 FLOAT_BOTTOMRIGHT_DIRT = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1103053483134955520/floating_conected_bottom_right.png?width=140&height=140")
-#world 2
-OCEANBGRD = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1111318998458581083/ocean1.png?width=1280&height=720")
 
+#world 2
+RIGHT_FLOAT_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1121245870151700610/right_edge_floating_sand.png?width=788&height=788")
+LEFT_FLOAT_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1121245869883281418/left_edge_floating_sand.png?width=788&height=788")
+FLOAT_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1121245869581287464/middle_floating_sound.png?width=788&height=788")
+SAND_PLATFORM = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1119151904648335360/platformworld2.png?width=788&height=788")
+SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115381678282645666/2.png?width=788&height=788")
+CONNECTED_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115381679180226580/5.png?width=788&height=788")
+LEFT_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115381677984841728/1.png?width=788&height=788")
+RIGHT_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115381678555279360/3.png?width=788&height=788")
+LEFT_SAND_SURFACELESS = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115381678840479864/4.png?width=788&height=788")
+RIGHT_SAND_SURFACELESS = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115381679457054720/6.png?width=788&height=788")
+BOTTOM_LEFT_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115381676256796754/8.png?width=788&height=788")
+BOTTOM_RIGHT_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115381677435388125/10.png?width=788&height=788")
+LEFT_WALL_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115389242508595250/11.png?width=788&height=788")
+RIGHT_WALL_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115381676009324554/7.png?width=788&height=788")
+FLOAT_BOTTOMLEFT_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115389242990932068/12.png?width=788&height=788")
+FLOAT_BOTTOMRIGHT_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115389241162215494/13.png?width=788&height=788")
+FLOAT_BOTTOM_SAND = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1115381676474904711/9.png?width=788&height=788")
+DOORS = simplegui.load_image("https://media.discordapp.net/attachments/794098849739702282/1117537163169509447/hehe_doors_2.png?width=788&height=3152")
+PRESSUREPLATE = simplegui.load_image("https://i.ibb.co/t8km5kz/spritesheet-1.png")
 BUTTON_SIZE = 788, 788
 WIDTH = 1280
 HEIGHT = 720
@@ -168,7 +196,10 @@ IMG_SIZES = {START_BUTTON: (958, 383),
              LVL15_UNCOMPLETED: (BUTTON_SIZE),
              LVL15_COMPLETED: (BUTTON_SIZE),
              LVL16_UNCOMPLETED: (BUTTON_SIZE),
-             LVL16_COMPLETED: (BUTTON_SIZE)}  
+             LVL16_COMPLETED: (BUTTON_SIZE),
+             DOORS: (BUTTON_SIZE),
+             CHOOSEPIECE: (BUTTON_SIZE),
+             PRESSUREPLATE: (640, 640)}  
 
 GRAVITY = 0.5
 GRAVITYMAX = 10
@@ -181,15 +212,14 @@ tutorial_list = []
 for i in range(1, 12):
     tutorial_list.append('tutorial ' + str(i))
 tutorial_list2 = []
-for i in range(12, 33):
+for i in range(10, 33):
     tutorial_list2.append('tutorial ' + str(i))
-tutorial_list3 = ['tutorial 34 hint', 'tutorial 34 hint 2']
-for i in range(33, 40):
+tutorial_list3 = ['tutorial 24 hint', 'tutorial 24 hint 2']
+for i in range(23, 25):
     tutorial_list3.append('tutorial ' + str(i))
-tutorial_list4 = ['tutorial 34 hint', 'tutorial 34 hint 2']
-for i in range(35, 40):
+tutorial_list4 = ['tutorial 24 hint', 'tutorial 24 hint 2']
+for i in range(25, 30):
     tutorial_list4.append('tutorial ' + str(i))
-
 fulltutorial_list = tutorial_list + tutorial_list2 + tutorial_list3    
 world_1 = []
 for i in range(1, 9):
@@ -197,34 +227,50 @@ for i in range(1, 9):
 world_2 = []
 for i in range(9, 17):
     world_2.append('level ' + str(i))
+world_2.append(['upgrade piece'])
 world_1_buttons = [LVL1_BUTTON, LVL2_BUTTON, LVL3_BUTTON, LVL4_BUTTON, LVL5_BUTTON, LVL6_BUTTON, LVL7_BUTTON, LVL8_BUTTON]
 world_2_buttons = [LVL9_BUTTON, LVL10_BUTTON, LVL11_BUTTON, LVL12_BUTTON, LVL13_BUTTON, LVL14_BUTTON, LVL15_BUTTON, LVL16_BUTTON]
 uncompleted_buttons_1 = [LVL2_UNCOMPLETED, LVL3_UNCOMPLETED, LVL4_UNCOMPLETED, LVL5_UNCOMPLETED, LVL6_UNCOMPLETED, LVL7_UNCOMPLETED, LVL8_UNCOMPLETED]
 uncompleted_buttons_2 = [LVL9_UNCOMPLETED, LVL10_UNCOMPLETED, LVL11_UNCOMPLETED, LVL12_UNCOMPLETED, LVL13_UNCOMPLETED, LVL14_UNCOMPLETED, LVL15_UNCOMPLETED, LVL16_UNCOMPLETED]
 completed_buttons_1 = [LVL1_COMPLETED, LVL2_COMPLETED, LVL3_COMPLETED, LVL4_COMPLETED, LVL5_COMPLETED, LVL6_COMPLETED, LVL7_COMPLETED, LVL8_COMPLETED]
 completed_buttons_2 = [LVL9_COMPLETED, LVL10_COMPLETED, LVL11_COMPLETED, LVL12_COMPLETED, LVL13_COMPLETED, LVL14_COMPLETED, LVL15_COMPLETED, LVL16_COMPLETED]
-levels = world_1 + world_2 + fulltutorial_list
-level_selects = ['level select 1', 'level select 2', 'level select 3']
+levels = world_1 + world_2 + fulltutorial_list + ['upgrade piece']
+level_selects = ['level select 1', 'level select 2', 'level select 3', 'upgrade piece']
 crates = ['c1', 'c2', 'c3', 'c4', 'c5']
-levels_unlocked = world_1 + world_2
+levels_unlocked = ['upgrade piece', 'level 1']
 levels_completed = []
 block_list = []
 crate_list = []
+platform_list = []
 playerclicks = []
 w_kings = []
 w_rooks = []
 w_knights = []
 w_bishops = []
+w_pawns = []
+w_queens = []
 b_king = []
 piece_list = []
+doors = ['d']
 piece_positions = []
+availablemoves = []
+music_list = []
 current_level = ''
-block_numbers = list(range(1, 17)) + crates
+block_numbers = list(range(1, 34)) + crates
 b_kingtouchcount = 0
 level_select_volume = 0
+circle_time = 0
+delay = 0
+upgradeanimation = 0
 displayedmessage = ''
 displayedmessage2 = ''
-guidemenu = False
+upgrademenu = False
+#stores where the bishop is blocked 
+maxdiagonalrightup = []
+maxdiagonalleftup = []
+maxdiagonalrightdown = []
+maxdiagonalleftdown = []
+availablebishopmoves = []
 #levels
 lvl_1 = []
 lvl_2 = []
@@ -236,6 +282,298 @@ lvl_7 = []
 lvl_8 = []
 tutorial1 = [] 
 tutorial2 = []
+pressure_plate_list = []
+def new_level():
+    global w_kings, w_bishops, w_rooks, w_knights, w_queens, w_pawns
+    global block_list, piece_list, crate_list
+    global piece_positions, platform_list, b_king, b_kingtouchcount
+    global door_list, availablemoves, availablemovesanimated, pressure_plate_list
+    global upgradeanimation
+    w_kings = []
+    w_bishops = []
+    w_rooks = []
+    w_knights = []
+    w_queens = []
+    w_pawns = []
+    block_list = []
+    piece_list = []
+    crate_list = []
+    piece_positions = []
+    platform_list = []
+    b_king = []
+    b_kingtouchcount = 0
+    door_list = []
+    availablemoves = []
+    availablemovesanimated = []
+    pressure_plate_list = []
+    upgradeanimation = 0
+def load_level(level):
+    global tutorial1, tutorial2, tutorial3, world, current_lvl, lvl_1
+    global lvl_2, lvl_3, lvl_4, lvl_5, lvl_6, lvl_7, lvl_8, lvl_9
+    if level in tutorial_list:
+        tutorial1 = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk', 0, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]
+        world = Stage(tutorial1)
+        current_lvl = tutorial1
+    if level in tutorial_list2:
+        tutorial2 = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 'wk', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk', 0, 0],
+            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]
+        world = Stage(tutorial2)
+        current_lvl = tutorial2
+    if level in tutorial_list3:
+        new_level()
+        cguidedialogues[23].dialoguepos = 0
+        cguidedialogues[24].dialoguepos = 0
+        tutorial3 = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 'wr', 0, 'wk', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 1, 1, 4, 0, 0, 0, 0, 3, 1, 1, 1, 1, 4, 0],
+            [2, 2, 2, 2, 5, 0, 0, 0, 0, 6, 2, 2, 2, 2, 5, 'bk'],
+            [2, 2, 2, 2, 5, 0, 0, 0, 0, 6, 2, 2, 2, 2, 12, 10],
+            [2, 2, 2, 2, 12, 10, 1, 1, 11, 13, 2, 2, 2, 2, 2, 2]]
+        if current_scene not in tutorial_list4:
+            world = Stage(tutorial3)                                
+            current_lvl = tutorial3
+    if level == 'level 1':
+
+        #world 1
+
+        #0 = air
+        #1 = default ground texture
+        #2 = connected ground texture
+        #3 = left edge ground texture
+        #4 = right edge grond texture
+        #5 surfaceless left ground texture
+        #6 surfaceless right ground texture
+        #7 floating left edge grass
+        #8 floating grass
+        #9 floating right edge grass
+        #10 grass coming from left wall
+        #11 grass coming from right wall
+        #12 dirt connecting grass to bottom right of wall
+        #13 dirt connecting grass to bottom left of wall
+        #14 floating left edge bottom dirt
+        #15 floating bottom dirt
+        #16 floating right edge bottom dirt
+        lvl_1 = [
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk'],
+            [1, 1, 1, 1, 4, 0, 0, 0, 0, 3, 1, 1, 1, 1, 1, 1],
+            [2, 2, 2, 2, 5, 0, 0, 0, 0, 6, 2, 2, 2, 2, 2, 2],
+            [2, 2, 2, 2, 5, 0, 0, 0, 'wb', 6, 2, 2, 2, 2, 2, 2],
+            [2, 2, 2, 2, 12, 10, 1, 1, 11, 13, 2, 2, 2, 2, 2, 2]]
+
+        world = Stage(lvl_1)
+        current_lvl = lvl_1
+    if level == 'level 2':
+            lvl_2 = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 'wr', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [8, 8, 8, 8, 8, 8, 8, 8, 9, 0, 7, 8, 8, 8, 8, 8],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [8, 8, 9, 0, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 0, 7, 8],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk', 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 8, 9, 0]]
+
+
+            world = Stage(lvl_2)
+            current_lvl = lvl_2
+
+    if level == 'level 3':
+
+            lvl_3 = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 'bk', 0, 0, 0, 0, 0, 0, 0],
+                [8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 0, 0, 0],
+                [0, 'wb', 0, 0, 0, 0, 0, 'wr', 'wk', 0, 0, 6, 5, 0, 0, 0],
+                [1, 1, 1, 1, 4, 0, 0, 3, 4, 0, 0, 6, 5, 0, 0, 0],
+                [2, 2, 2, 2, 5, 0, 0, 6, 5, 0, 0, 6, 5, 0, 0, 0],
+                [2, 2, 2, 2, 12, 10, 11, 13, 12, 10, 11, 13, 12, 10, 1, 1]]
+
+
+
+            world = Stage(lvl_3)
+            current_lvl = lvl_3
+
+    if level == 'level 4':
+
+        lvl_4 = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+                [7, 8, 8, 8, 8, 8, 9, 0, 0, 3, 4, 0, 0, 0, 2, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 5, 0, 0, 0, 2, 0],
+                ['wkt', 0, 0, 0, 0, 0, 0, 0, 0, 6, 5, 0, 0, 0, 2, 0],
+                ['wk', 0, 0, 'wb', 0, 3, 4, 0, 0, 6, 5, 0, 0, 0, 15, 'bk'],
+                [1, 1, 1, 1, 11, 13, 12, 10, 11, 13, 12, 10, 1, 1, 1, 1],
+                [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]
+
+        world = Stage(lvl_4)
+        current_lvl = lvl_4
+
+    if level == 'level 5':
+        lvl_5 = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 0],
+                [0, 0, 0, 0, 0, 0, 0, 3, 1, 4, 0, 0, 0, 6, 5, 0],
+                [0, 0, 0, 1, 0, 0, 0, 6, 2, 5, 0, 0, 0, 6, 5, 0],
+                [0, 0, 0, 2, 0, 0, 0, 6, 2, 5, 0, 0, 0, 6, 5, 0],
+                [0, 'wkt', 0, 15, 'wkt', 'wk', 0, 6, 2, 5, 'wb', 'wr', 0, 6, 5, 'bk'],
+                [1, 1, 1, 1, 1, 1, 11, 13, 2, 12, 10, 1, 11, 13, 12, 10],
+                [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]
+
+
+        world = Stage(lvl_5)
+        current_lvl = lvl_5
+
+    if level == 'level 6':
+        lvl_6 = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 'wr', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 8, 8, 9],
+                [1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk'],
+                [2, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 1],
+                [2, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 2, 2],
+                [2, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 2, 2],
+                [2, 2, 5, 'wkt', 0, 'wb', 0, 'wr', 0, 'wkt', 0, 'wkt', 6, 2, 2, 2],
+                [2, 2, 12, 10, 1, 1, 1, 1, 1, 1, 1, 11, 13, 2, 2, 2]]
+        world = Stage(lvl_6)
+        current_lvl = lvl_6
+    if level == 'level 7':
+        lvl_7 = [
+                [0, 0, 0, 0, 0, 0, 'wkt', 0, 0, 0, 0, 0, 0, 0, 'wk', 0],
+                [1, 1, 1, 1, 1, 1, 4, 0, 3, 1, 1, 1, 1, 1, 1, 1],
+                [15, 15, 15, 15, 15, 15, 5, 0, 6, 15, 15, 15, 15, 15, 15, 15],
+                [0, 0, 0, 0, 0, 0, 5, 0, 6, 0, 0, 0, 0, 0, 0, 'wr'],
+                [0, 3, 4, 0, 0, 0, 5, 0, 6, 0, 7, 8, 8, 8, 8, 9],
+                [0, 6, 5, 0, 0, 0, 5, 0, 6, 0, 0, 0, 0, 0, 0, 0],
+                [0, 6, 5, 0, 0, 0, 16, 'c2', 14, 7, 8, 8, 8, 8, 9, 0],
+                ['bk', 6, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [11, 13, 12, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
+        world = Stage(lvl_7)
+        current_lvl = lvl_7
+
+
+    if level == 'level 8':
+        lvl_8 = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 'wkt', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1],
+                [15, 2, 0, 2, 0, 2, 0, 2, 2, 2, 2, 0, 2, 15, 2, 2],
+                [0, 2, 2, 2, 0, 2, 2, 2, 15, 2, 2, 15, 2, 0, 2, 2],
+                [2, 15, 2, 2, 15, 2, 2, 2, 0, 15, 2, 0, 2, 15, 2, 2],
+                [2, 0, 15, 15, 'wb', 15, 15, 15, 0, 0, 2, 15, 2, 0, 2, 2],
+                [2, 2, 'bk', 0, 2, 0, 0, 0, 2, 2, 2, 0, 2, 2, 2, 2],
+                [15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]]
+        world = Stage(lvl_8)
+        current_lvl = lvl_8
+    #world 2
+
+    #17 = sand
+    #18 = left edge sand texture
+    #19 = right edge sand texture
+    #20 = surfaceless left sand texture
+    #21 = surfaceless right sand texture
+    #22 = sand coming from left wall
+    #23 = sand coming from right wall
+    #24 = sand connecting grass to bottom right of wall
+    #25 = sand connecting grass to bottom left of wall
+    #26 = floating left edge bottom sand
+    #27 = floating right edge bottom sand   
+    #28 = floating bottom sand
+    #29 = connected sand texture
+    #30 = sand platform
+    #31 = floating sand middle
+    #32 = left edge floating sand
+    #33 = right edge floating sand
+    if level == 'level 9':
+        lvl_9 = [
+                [0, 0, 0, 30, 0, 0, 0, 0, 0, 20, 21, 0, 0, 0, 0, 0],
+                [0, 0, 0, 30, 0, 0, 0, 0, 0, 20, 21, 0, 0, 0, 0, 0],
+                [0, 0, 0, 30, 0, 0, 0, 0, 0, 20, 21, 0, 'bk', 0, 0, 0],
+                [0, 0, 0, 30, 0, 0, 0, 0, 0, 20, 21, 0, 18, 19, 0, 0],
+                [0, 0, 0, '30p', 0, 0, 0, 0, 0, 26, 27, 0, 26, 27, 0, 0],
+                [0, 0, 0, 17, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'wr'],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 18, 17, 17, 17, 17, 17, 17],
+                [17, 17, 17, 17, 19, 0, 18, 19, 0, 20, 29, 29, 29, 29, 29, 29],
+                [29, 29, 29, 29, 25, 17, 24, 25, 17, 24, 29, 29, 29, 29, 29, 29]]
+        world = Stage(lvl_9)
+        current_lvl = lvl_9
+    if level == 'level 10':
+        lvl_10 = [
+                [21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 27, 0, 0, 0, 0],
+                [21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 33, 0, 0, 0],
+                [21, 0, 18, 19, 0, 32, 33, 0, 0, 32, 33, 0, 0, 0, 0, 0],
+                [27, 'c2', 20, 25, 19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 32, 33],
+                ['bk', 0, 20, 29, 21, 0, 0, 32, 33, 0, 0, 0, 0, 0, 0, 0],
+                [19, 0, 20, 29, 21, 0, 0, 0, 0, 0, 0, 0, 18, 19, 0, 0],
+                [27, 0, 20, 29, 21, 0, 0, 0, 0, 0, 0, 0, 20, 25, 22, 17],
+                [0, 0, 20, 29, 21, 0, 'wq', 0, 0, 0, 0, 'wkt', 20, 29, 29, 29],
+                [18, 19, 26, 28, 27, 18, 17, 17, 17, 17, 17, 19, 20, 29, 29, 29]]
+
+
+        world = Stage(lvl_10)
+        current_lvl = lvl_10
+    
+    if level == 'level 11':
+        lvl_11 = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 0, 0, 18, 19, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 'd', 0, 0, 0, 26, 27, 0, 0],
+                ['p', 32, 33, 0, 0, 0, 0, 0, 18, 19, 0, 17, 0, 0, 0, 0],
+                [33, 0, 0, 0, 0, 0, 0, 0, 20, 21, 0, 28, 0, 'bk', 0, 0],
+                [0, 32, 33, 0, 0, 0, 0, 0, 20, 21, 0, 18, 17, 17, 17, 19],
+                [0, 0, 0, 0, 32, 31, 33, 0, 20, 21, 0, 20, 29, 29, 29, 21],
+                [0, 0, 0, 0, 0, 0, 0, 0, 26, 27, 0, 20, 29, 29, 29, 21],
+                [0, 0, 0, 0, 0, 'wb', 0, 'wq', 0, 0, 0, 20, 29, 29, 29, 21],
+                [17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 26, 29, 29, 29, 27]]
+
+
+        world = Stage(lvl_11)
+        current_lvl = lvl_11
+        
+    if level == 'level 12':
+        lvl_12 = [
+                [0, 0, 0, 17, 0, 0, 0, 0, '30r', 0, 0, 20, 21, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 18, 19, 30, 0, 0, 20, 21, 30, 'bk', 0],
+                [0, 0, 0, 17, 0, 0, 26, 27, 30, 0, 0, 20, 21, 0, 17, 0],
+                [0, 0, 0, 28, 0, 0, 0, 0, 'wp', 0, 0, 20, 21, 0, 0, 0],
+                [0, 0, 0, 0, 18, 17, 17, 17, 17, 17, 19, 20, 21, 0, 0, 0],
+                [0, 0, 0, 0, 26, 28, 28, 28, 28, 28, 27, 26, 27, 18, 19, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                ['wb', 0, 0, 0, 0, 0, 18, 17, 17, 17, 17, 17, 17, 17, 17, 17],
+                [17, 17, 17, 17, 17, 23, 24, 29, 29, 29, 29, 29, 29, 29, 29, 29]]
+
+        world = Stage(lvl_12)
+        current_lvl = lvl_12
+        
+        
 class Scene:
     #draws the buttons for specific scenes of the game
     def __init__(self, name, buttons):
@@ -254,6 +592,7 @@ class Button:
         self.image = image
         self.destination = destination
         self.enabled = True
+        self.selected = False
     
     def draw(self,canvas):
         width, height = IMG_SIZES[self.image]
@@ -267,7 +606,9 @@ class Button:
         #checks if button is selected
         global current_scene, current_lvl, lvl_1, lvl_2, world, w_kings, w_bishops, tutorial1, current_level, guidemenu
         global w_rooks, w_knights, block_list, piece_list, b_king, lvl_3, piece_positions, crate_list, b_kingtouchcount
-        global displayedmessage, displayedmessage2, tutorial_list2, cguidedialogues
+        global displayedmessage, displayedmessage2, tutorial_list2, cguidedialogues, door_list, pressure_plate_list, availablemoves, availablemovesanimated
+        global w_queens, w_pawns, platform_list, upgradeanimation, upgrademenu
+        self.selected = False
         #checks whether mouse is within left and right borders of button
         
         in_x = abs(click_position[0] - self.pos[0]) < self.size[0]/2
@@ -284,6 +625,8 @@ class Button:
                     if cguidedialogue != None:
                         cguidedialogue.dialoguepos = 0        
             if current_scene not in level_selects:
+                if self.destination in levels_unlocked:
+                    self.selected = True
                 current_scene = self.destination
 
             elif current_scene in level_selects:
@@ -291,230 +634,76 @@ class Button:
                     current_scene = self.destination
 
                 elif self.destination in levels_unlocked:
+                    #checks if queen promotion button was clicked
                     current_scene = self.destination
+                    if self.pos == [WIDTH/2 - 305,HEIGHT/2]:
+                        for w_pawn in w_pawns:
+                            if w_pawn.upgrade:
+                                w_queens.append(Piece(WHITE_QUEEN, w_pawn.pos,(TILE_SIZE))) 
+                                for w_queen in w_queens:
+                                    if w_queen not in piece_list:
+                                        piece_list.append(w_queen)
+                                for pawn in w_pawns:
+                                    piece_list.remove(w_pawn)
+                                w_pawns.remove(w_pawn)
+                    elif self.pos == [WIDTH/2 - 96, HEIGHT/2]:
+                        for w_pawn in w_pawns:
+                            if w_pawn.upgrade:
+                                w_bishops.append(Piece(WHITE_BISHOP, w_pawn.pos,(TILE_SIZE))) 
+                                for w_bishop in w_bishops:
+                                    if w_bishop not in piece_list:
+                                        piece_list.append(w_bishop)
+                                for pawn in w_pawns:
+                                    piece_list.remove(w_pawn)
+                                w_pawns.remove(w_pawn)
+                    elif self.pos == [WIDTH/2 + 108, HEIGHT/2]:
+                        for w_pawn in w_pawns:
+                            if w_pawn.upgrade:
+                                w_rooks.append(Piece(WHITE_ROOK, w_pawn.pos,(TILE_SIZE))) 
+                                for w_rook in w_rooks:
+                                    if w_rook not in piece_list:
+                                        piece_list.append(w_rook)
+                                for pawn in w_pawns:
+                                    piece_list.remove(w_pawn)
+                                w_pawns.remove(w_pawn)
+                    elif self.pos == [WIDTH/2 + 312, HEIGHT/2]:
+                        for w_pawn in w_pawns:
+                            if w_pawn.upgrade:
+                                w_knights.append(Piece(WHITE_HORSE, w_pawn.pos,(TILE_SIZE))) 
+                                for w_knight in w_knights:
+                                    if w_knight not in piece_list:
+                                        piece_list.append(w_knight)
+                                for pawn in w_pawns:
+                                    piece_list.remove(w_pawn)
+                                w_pawns.remove(w_pawn)
+
                 #checks if the level the button is leading to is unlocked
                 for level in levels:
                     if self.destination in levels:
                         if self.destination in levels_unlocked:
+                            self.selected = True
                             current_scene = self.destination
-            if guidemenu == False:
+            if upgrademenu:
+                if self.destination in levels:
+                    if self.pos == [190, 50]:
+                        
+                        current_scene = current_level
+                        new_level()
+                        load_level(current_scene)
+                        upgrademenu = False
+                if self.destination in level_selects:
+                    if self.pos == [70, 50]:
+                        w_pawns = []
+                        current_scene = self.destination
+                        upgrademenu = False
+            if upgrademenu == False:
                 #resets the level before entering
-                if self.destination in world_2:
-                    GRAVITY = -0.5
                 if self.destination in levels:
                     if current_scene not in tutorial_list4:
                         current_level = current_scene
-                        w_kings = []
-                        w_bishops = []
-                        w_rooks = []
-                        w_knights = []
-                        block_list = []
-                        piece_list = []
-                        crate_list = []
-                        piece_positions = []
-                        b_king = []
-                        b_kingtouchcount = 0
-
-                    if self.destination in tutorial_list:
-                        tutorial1 = [
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 'wk', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk', 0, 0],
-                            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]
-                        world = Stage(tutorial1)
-                        current_lvl = tutorial1
-                    if self.destination in tutorial_list2:
-                        tutorial2 = [
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 'wk', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk', 0, 0],
-                            [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]
-                        world = Stage(tutorial2)
-                        current_lvl = tutorial2
-
-                    if self.destination in tutorial_list3:
-                        cguidedialogues[33].dialoguepos = 0
-                        cguidedialogues[34].dialoguepos = 0
-                        tutorial3 = [
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 'wr', 0, 'wk', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk'],
-                            [1, 1, 1, 1, 4, 0, 0, 0, 0, 3, 1, 1, 1, 1, 1, 1],
-                            [2, 2, 2, 2, 5, 0, 0, 0, 0, 6, 2, 2, 2, 2, 2, 2],
-                            [2, 2, 2, 2, 5, 0, 0, 0, 0, 6, 2, 2, 2, 2, 2, 2],
-                            [2, 2, 2, 2, 12, 10, 1, 1, 11, 13, 2, 2, 2, 2, 2, 2]]
-                        if current_scene not in tutorial_list4:
-                            world = Stage(tutorial3)                                
-                            current_lvl = tutorial3
-                    if self.destination == 'level 1':
-
-                        #world 1
-
-                        #0 = air
-                        #1 = default ground texture
-                        #2 = connected ground texture
-                        #3 = left edge ground texture
-                        #4 = right edge grond texture
-                        #5 surfaceless left ground texture
-                        #6 surfaceless right ground texture
-                        #7 floating left edge grass
-                        #8 floating grass
-                        #9 floating right edge grass
-                        #10 grass coming from left wall
-                        #11 grass coming from right wall
-                        #12 dirt connecting grass to bottom right of wall
-                        #13 dirt connecting grass to bottom left of wall
-                        #14 floating left edge bottom dirt
-                        #15 floating bottom dirt
-                        #16 floating right edge bottom dirt
-                        lvl_1 = [
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk'],
-                            [1, 1, 1, 1, 4, 0, 0, 0, 0, 3, 1, 1, 1, 1, 1, 1],
-                            [2, 2, 2, 2, 5, 0, 0, 0, 0, 6, 2, 2, 2, 2, 2, 2],
-                            [2, 2, 2, 2, 5, 0, 0, 0, 'wb', 6, 2, 2, 2, 2, 2, 2],
-                            [2, 2, 2, 2, 12, 10, 1, 1, 11, 13, 2, 2, 2, 2, 2, 2]]
-
-                        world = Stage(lvl_1)
-                        current_lvl = lvl_1
-                if self.destination == 'level 2':
-                        lvl_2 = [
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 'wr', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [8, 8, 8, 8, 8, 8, 8, 8, 9, 0, 7, 8, 8, 8, 8, 8],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [8, 8, 9, 0, 7, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 0, 7, 8],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk', 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 8, 9, 0]]
-
-
-                        world = Stage(lvl_2)
-                        current_lvl = lvl_2
-
-                if self.destination == 'level 3':
-
-                        lvl_3 = [
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 'bk', 0, 0, 0, 0, 0, 0, 0],
-                            [8, 8, 8, 8, 8, 8, 8, 8, 8, 9, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 0, 0, 0],
-                            [0, 'wb', 0, 0, 0, 0, 0, 'wr', 'wk', 0, 0, 6, 5, 0, 0, 0],
-                            [1, 1, 1, 1, 4, 0, 0, 3, 4, 0, 0, 6, 5, 0, 0, 0],
-                            [2, 2, 2, 2, 5, 0, 0, 6, 5, 0, 0, 6, 5, 0, 0, 0],
-                            [2, 2, 2, 2, 12, 10, 11, 13, 12, 10, 11, 13, 12, 10, 1, 1]]
-
-
-
-                        world = Stage(lvl_3)
-                        current_lvl = lvl_3
-
-                if self.destination == 'level 4':
-
-                    lvl_4 = [
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
-                            [7, 8, 8, 8, 8, 8, 9, 0, 0, 3, 4, 0, 0, 0, 2, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 5, 0, 0, 0, 2, 0],
-                            ['wkt', 0, 0, 0, 0, 0, 0, 0, 0, 6, 5, 0, 0, 0, 2, 0],
-                            ['wk', 0, 0, 'wb', 0, 3, 4, 0, 0, 6, 5, 0, 0, 0, 15, 'bk'],
-                            [1, 1, 1, 1, 11, 13, 12, 10, 11, 13, 12, 10, 1, 1, 1, 1],
-                            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]
-
-                    world = Stage(lvl_4)
-                    current_lvl = lvl_4
-
-                if self.destination == 'level 5':
-                    lvl_5 = [
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 4, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 3, 1, 4, 0, 0, 0, 6, 5, 0],
-                            [0, 0, 0, 1, 0, 0, 0, 6, 2, 5, 0, 0, 0, 6, 5, 0],
-                            [0, 0, 0, 2, 0, 0, 0, 6, 2, 5, 0, 0, 0, 6, 5, 0],
-                            [0, 'wkt', 0, 15, 'wkt', 'wk', 0, 6, 2, 5, 'wb', 'wr', 0, 6, 5, 'bk'],
-                            [1, 1, 1, 1, 1, 1, 11, 13, 2, 12, 10, 1, 11, 13, 12, 10],
-                            [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]]
-
-
-                    world = Stage(lvl_5)
-                    current_lvl = lvl_5
-
-                if self.destination == 'level 6':
-                    lvl_6 = [
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 'wr', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 8, 8, 9],
-                            [1, 1, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'bk'],
-                            [2, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 1, 1, 1],
-                            [2, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 2, 2],
-                            [2, 2, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 2, 2, 2],
-                            [2, 2, 5, 'wkt', 0, 'wb', 0, 'wr', 0, 'wkt', 0, 'wkt', 6, 2, 2, 2],
-                            [2, 2, 12, 10, 1, 1, 1, 1, 1, 1, 1, 11, 13, 2, 2, 2]]
-                    world = Stage(lvl_6)
-                    current_lvl = lvl_6
-                if self.destination == 'level 7':
-                    lvl_7 = [
-                            [0, 0, 0, 0, 0, 0, 'wkt', 0, 0, 0, 0, 0, 0, 0, 'wk', 0],
-                            [1, 1, 1, 1, 1, 1, 4, 0, 3, 1, 1, 1, 1, 1, 1, 1],
-                            [15, 15, 15, 15, 15, 15, 5, 0, 6, 15, 15, 15, 15, 15, 15, 15],
-                            [0, 0, 0, 0, 0, 0, 5, 0, 6, 0, 0, 0, 0, 0, 0, 'wr'],
-                            [0, 3, 4, 0, 0, 0, 5, 0, 6, 0, 7, 8, 8, 8, 8, 9],
-                            [0, 6, 5, 0, 0, 0, 5, 0, 6, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 6, 5, 0, 0, 0, 16, 'c2', 14, 7, 8, 8, 8, 8, 9, 0],
-                            ['bk', 6, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [11, 13, 12, 10, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
-                    world = Stage(lvl_7)
-                    current_lvl = lvl_7
-
-
-                if self.destination == 'level 8':
-                    lvl_8 = [
-                            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [0, 0, 0, 0, 0, 'wkt', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                            [1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1],
-                            [15, 2, 0, 2, 0, 2, 0, 2, 2, 2, 2, 0, 2, 15, 2, 2],
-                            [0, 2, 2, 2, 0, 2, 2, 2, 15, 2, 2, 15, 2, 0, 2, 2],
-                            [2, 15, 2, 2, 15, 2, 2, 2, 0, 15, 2, 0, 2, 15, 2, 2],
-                            [2, 0, 15, 15, 'wb', 15, 15, 15, 0, 0, 2, 15, 2, 0, 2, 2],
-                            [2, 2, 'bk', 0, 2, 0, 0, 0, 2, 2, 2, 0, 2, 2, 2, 2],
-                            [15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15]]
-                    world = Stage(lvl_8)
-                    current_lvl = lvl_8
+                        new_level()
+                        load_level(current_scene)
                 
-                if self.destination == 'level 9':
-                    lvl_9 = [
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-                        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-                    world = Stage(lvl_9)
-                    current_lvl = lvl_9
-
-
 
                 
 
@@ -522,14 +711,12 @@ class Button:
 def mouse_click(pos):
     global TILE_SIZE, col, row, current_scene, sqselected, playerclicks, world
     global move, Stage, current_lvl, offsetx, offsety, legalmove, w_rookrow, piece_list, crates
-    global w_rookcol, positions, w_bishoprow, w_bishopcol, w_kingrow, block_numbers, TILE_SIZE
+    global w_rookcol, positions, w_bishoprow, w_bishopcol, w_kingrow, block_numbers, TILE_SIZE, circle_time, availablemoves
     
-    
-            
     for button in draw_scene.buttons:
             button.button_selected(pos)
             
-    if current_scene in levels:
+    if current_scene in levels and current_scene != 'upgrade piece':
         #Divides the level grid into columns and rows
         col = pos[0]//TILE_SIZE[0]
         row = pos[1]//TILE_SIZE[1]
@@ -538,26 +725,17 @@ def mouse_click(pos):
         offsety = 45
         #stores the column and row that the pieces are currently in
         positions = []
-        if w_kings != []:
-            for w_king in w_kings:
-                positions.append([w_king.row, w_king.col])
-        
-        if w_bishops != []:
-            for w_bishop in w_bishops:
-                positions.append([w_bishop.row, w_bishop.col])
-        
-        if w_rooks != []:
-            for w_rook in w_rooks:
-                positions.append([w_rook.row, w_rook.col])
-        
-        if w_knights != []:
-            for w_knight in w_knights:
-                positions.append([w_knight.row, w_knight.col])
-        
+        for piece in piece_list:
+            if not piece.selected:
+                positions.append([piece.row, piece.col])
         if w_kings != []:
             for w_king in w_kings:
                 if [row, col] == [w_king.row, w_king.col]:
                     unselectpieces()
+                    availablemoves = []
+                    circle_time = 0
+                    MOVE_SOUND.rewind()
+                    MOVE_SOUND.play()
                     w_king.selected = True
                    
                 if w_king.selected == True and w_king.falling == False:
@@ -565,14 +743,16 @@ def mouse_click(pos):
                     if current_lvl[row][col] not in block_numbers:
                         #king can only move one tile from all sides
                         if w_king.row in range(row - 1, row + 2) and w_king.col in range(col -1, col + 2):
-                            legalmove = True
-                            pieceobstructioncheck(w_king.row, w_king.col)
                             positionpiece(w_king)
                             
         if w_bishops != []:
             for w_bishop in w_bishops:
                 if [row, col] == [w_bishop.row, w_bishop.col]:
                     unselectpieces()
+                    availablemoves = []
+                    circle_time = 0
+                    MOVE_SOUND.rewind()
+                    MOVE_SOUND.play()
                     w_bishop.selected = True
             
                 if w_bishop != []:    
@@ -581,10 +761,6 @@ def mouse_click(pos):
                             
                         #checks if absolute value of horizontal and vertical displacement are equal for diagonal movement
                             if abs(row - w_bishop.row) == abs(col - w_bishop.col) and abs(row - w_bishop.row) > 0 or row == w_bishop.row and col == w_bishop.col:
-                                
-                                legalmove = True
-                                pieceobstructioncheck(w_bishop.row, w_bishop.col)  
-                                bishopobstructioncheck() 
                                 positionpiece(w_bishop)
                                 w_bishop.falling = True
         
@@ -592,43 +768,80 @@ def mouse_click(pos):
             for w_rook in w_rooks:
                 if [row, col] == [w_rook.row, w_rook.col]:
                     unselectpieces()
+                    availablemoves = []
+                    circle_time = 0
+                    MOVE_SOUND.rewind()
+                    MOVE_SOUND.play()
                     w_rook.selected = True
 
                 if w_rook.selected == True and w_rook.falling == False:
                     if current_lvl[row][col] not in block_numbers:
-                        if row == w_rook.row or col == w_rook.col:
-                            rookobstructioncheck()
-                            pieceobstructioncheck(w_rook.row, w_rook.col)      
+                        if row == w_rook.row or col == w_rook.col:   
                             positionpiece(w_rook)
                             w_rook.falling = True
+        if w_queens != []:
+            for w_queen in w_queens:
+                if [row, col] == [w_queen.row, w_queen.col]:
+                    unselectpieces()
+                    availablemoves = []
+                    circle_time = 0
+                    MOVE_SOUND.rewind()
+                    MOVE_SOUND.play()
+                    w_queen.selected = True
+
+                if w_queen.selected == True and w_queen.falling == False:
+                    if current_lvl[row][col] not in block_numbers:
+                        positionpiece(w_queen)
+                        w_queen.falling = True
+
         if w_knights != []:       
             for w_knight in w_knights:
                 if [row, col] == [w_knight.row, w_knight.col]:
                     unselectpieces()
+                    availablemoves = []
+                    circle_time = 0
+                    MOVE_SOUND.rewind()
+                    MOVE_SOUND.play()
                     w_knight.selected = True
 
                 if w_knight.selected == True and w_knight.falling == False:
                     if current_lvl[row][col] not in block_numbers:
                         #checks if knight moves in an L pattern
                         if (col == w_knight.col + 1 or col == w_knight.col - 1) and (row == w_knight.row - 2 or row == w_knight.row + 2):
-                            legalmove = True
-                            pieceobstructioncheck(w_knight.row, w_knight.col)
                             positionpiece(w_knight)
                             w_knight.falling = True
                         elif (row == w_knight.row - 1 or row == w_knight.row + 1) and (col == w_knight.col + 2 or col == w_knight.col - 2):
-                            legalmove = True
-                            pieceobstructioncheck(w_knight.row, w_knight.col)
                             positionpiece(w_knight)
                             w_knight.falling = True
                         elif row == w_knight.row and col == w_knight.col:
-                            legalmove = True
                             positionpiece(w_knight)
                             w_knight.falling = True
-        
-def rookobstructioncheck():
+                            
+        if w_pawns != []:
+           for w_pawn in w_pawns:
+               if [row, col] == [w_pawn.row, w_pawn.col]:
+                    unselectpieces()
+                    availablemoves = []
+                    circle_time = 0
+                    MOVE_SOUND.rewind()
+                    MOVE_SOUND.play()
+                    w_pawn.selected = True
+                    
+               if w_pawn.selected == True and w_pawn.falling == False:
+                   positionpiece(w_pawn)
+                   w_pawn.falling = True
+                    
+                       
+        #updates piece column and row in case pieces fell when another one moved
+        positions = []
+        for piece in piece_list:
+            if not piece.selected:
+                positions.append([piece.row, piece.col])
+
+def rookobstructioncheck(row, col):
     global legalmove, block_numbers, w_rooks
     #checks if there is an object between rook position and click position horizontally to see if it's a legal move
-    for w_rook in w_rooks:
+    for w_rook in piece_list:
         if w_rook.selected == True and w_rook.falling == False:
             if row == w_rook.row:
                 legalmove = True
@@ -676,23 +889,25 @@ def rookobstructioncheck():
                                         if [r, w_rook.col] == position:
                                             legalmove = False
 
-def bishopobstructioncheck():
-    global legalmove, block_numbers, current_lvl
+def bishopobstructioncheck(row, col):
+    global legalmove, block_numbers, current_lvl, maxdiagonalrightup, maxdiagonalrightdown, maxdiagonalleftup
+    global maxdiagonalleftdown, COLS, ROWS
+
     #checks if there are objects diagonal up to the right of bishop
-    for w_bishop in w_bishops:
+    for w_bishop in piece_list:
         if w_bishop.selected == True and w_bishop.falling == False:
             if row < w_bishop.row and col > w_bishop.col:
-                for c in range(w_bishop.col, col):
-                    for r in range(row, w_bishop.row):
+                for c in range(w_bishop.col, col + 1):
+                    for r in range(row, w_bishop.row + 1):
                         if abs(r - w_bishop.row) == abs(c - w_bishop.col): 
                             if current_lvl[r][c] in block_numbers:
                                 legalmove = False
-                        else:
+
                             for position in positions:
                                 if position != [w_bishop.row, w_bishop.col]:
                                     for c in range(w_bishop.col, col):
                                         for r in range(row, w_bishop.row):
-                                            if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
+                                            if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col):
                                                 legalmove = False
                                                 
                 for r in range(row, w_bishop.row):
@@ -700,6 +915,7 @@ def bishopobstructioncheck():
                          if abs(r - w_bishop.row) == abs(c - w_bishop.col): 
                             if current_lvl[r][c] in block_numbers:
                                 legalmove = False
+
                             else:
                                 for position in positions:
                                     if position != [w_bishop.row, w_bishop.col]:
@@ -707,34 +923,41 @@ def bishopobstructioncheck():
                                             for c in range(w_bishop.col, col):
                                                 if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
                                                     legalmove = False
+
                                                     
             #checks if there are objects diagonal up to the left of bishop                                    
             elif row < w_bishop.row and col < w_bishop.col:
-                for c in range(col, w_bishop.col):
-                    for r in range(row, w_bishop.row):
+                for c in range(col, w_bishop.col+1):
+                    for r in range(row, w_bishop.row+1):
                         if abs(w_bishop.row - r) == abs(w_bishop.col - c): 
                             if current_lvl[r][c] in block_numbers: 
+
                                 legalmove = False
-                        else:
                             for position in positions:
-                                if position != [w_bishop.row, w_bishop.col]:
-                                    for c in range(col, w_bishop.col):
+                                if position != [w_bishop.row, w_bishop.col+1]:
+                                    for c in range(col, w_bishop.col+1):
                                         for r in range(row, w_bishop.row):
+                                            if legalmove != False:
+                                                availablebishopmoves.append([r, c])
                                             if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
                                                 legalmove = False
+
                 
                 for r in range(row, w_bishop.row):
                     for c in range(col, w_bishop.col):
                         if current_lvl[r][c] in block_numbers:
                             if abs(r - w_bishop.row) == abs(c - w_bishop.col): 
                                 legalmove = False
-                        else:
+
+                                
                             for position in positions:
                                 if position != [w_bishop.row, w_bishop.col]:
                                     for r in range(row, w_bishop.row):
                                         for c in range(col, w_bishop.col):
                                             if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
                                                 legalmove = False
+                                            if legalmove != False:
+                                                availablebishopmoves.append([r, c])
                                                 
             #checks if there are objects diagonal down to the right of the bishop
             elif row > w_bishop.row and col > w_bishop.col:
@@ -742,13 +965,25 @@ def bishopobstructioncheck():
                     for r in range(w_bishop.row, row):
                         if current_lvl[r][c] in block_numbers and abs(r - w_bishop.row) == abs(c - w_bishop.col):
                             legalmove = False
-                        else:
-                            for position in positions:
-                                if position != [w_bishop.row, w_bishop.col]:
-                                    for c in range(w_bishop.col, col):
-                                        for r in range(w_bishop.row, row):
-                                            if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
-                                                legalmove = False
+
+                        for position in positions:
+                            if position != [w_bishop.row, w_bishop.col]:
+                                for c in range(w_bishop.col, col):
+                                    for r in range(w_bishop.row, row):
+                                        if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
+                                            legalmove = False
+                for r in range(w_bishop.row, row):
+                    for c in range(w_bishop.col, col):
+                        if current_lvl[r][c] in block_numbers and abs(r - w_bishop.row) == abs(c - w_bishop.col):
+                            legalmove = False
+
+                    for position in positions:
+                        if position != [w_bishop.row, w_bishop.col]:
+                            for r in range(w_bishop.row, row):
+                                for c in range(w_bishop.col, col):
+                                    if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
+                                        legalmove = False
+
                 
 
             #checks if there are objects diagnoal down to the left of the bishop
@@ -757,19 +992,28 @@ def bishopobstructioncheck():
                     for r in range(w_bishop.row, row):
                         if current_lvl[r][c] in block_numbers and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
                             legalmove = False
-                        else:
-                            for position in positions:
-                                if position != [w_bishop.row, w_bishop.col]:
-                                    for c in range(col, w_bishop.col):
-                                        for r in range(w_bishop.row, row):
-                                            if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
-                                                legalmove = False
-    
 
-            if w_bishop.row == row and w_bishop.col == col:
-                legalmove = True
+                        for position in positions:
+                            if position != [w_bishop.row, w_bishop.col]:
+                                for c in range(col, w_bishop.col):
+                                    for r in range(w_bishop.row, row):
+                                        if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
+                                            legalmove = False
+                                            
+                    for r in range(w_bishop.row, row):                           
+                        for c in range(col, w_bishop.col):
+                            if current_lvl[r][c] in block_numbers and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
+                                legalmove = False
+
+                        for position in positions:
+                            if position != [w_bishop.row, w_bishop.col]:
+                                for r in range(w_bishop.row, row):
+                                    for c in range(col, w_bishop.col):
+                                        if [r, c] == position and abs(r - w_bishop.row) == abs(c - w_bishop.col): 
+                                            legalmove = False
+
         
-def pieceobstructioncheck(piecerow, piececol):
+def pieceobstructioncheck(piecerow, piececol, row, col):
     #checks if player click is at a piece position
     global legalmove, b_king, piece_list
     
@@ -779,38 +1023,33 @@ def pieceobstructioncheck(piecerow, piececol):
                 
     if b_king[0].collidable == False:
         legalmove = False
+
     for position in positions:
         if position != [piecerow, piececol]:
             if [row, col] == position:
                 legalmove = False
             
 def positionpiece(piece):
-    global legalmove, levels_completed, b_king, current_lvl, MOVE_SOUND, piece_list
+    global legalmove, levels_completed, b_king, current_lvl, MOVE_SOUND, piece_list, circle_time
                 
     #positions piece and adds an offset to x and y position to center the image when clicked
-    if legalmove:
-        piece.pos = [col * TILE_SIZE[0] + offsetx, row * TILE_SIZE[1] + offsety]
-        piece.newpos = True
-        MOVE_SOUND.rewind()
-        MOVE_SOUND.play()
-        
+    if [col * TILE_SIZE[0] + 40, row * TILE_SIZE[1] + offsety] in availablemoves:
+        if piece.selected:
+            piece.pos = [col * TILE_SIZE[0] + offsetx, row * TILE_SIZE[1] + offsety]
+            piece.newpos = True
+            circle_time = 0
+            MOVE_SOUND.rewind()
+            MOVE_SOUND.play()
+            piece.firstmove = False
+
     if b_king != []:
         if piece.pos == b_king[0].pos:
             levels_completed.append(current_lvl)
         
 def unselectpieces():
-    if w_kings != []:
-        for w_king in w_kings:
-            w_king.selected = False
-    if w_bishops != []:
-        for w_bishop in w_bishops:
-            w_bishop.selected = False
-    if w_rooks != []:
-        for w_rook in w_rooks:
-            w_rook.selected = False     
-    if w_knights != []:
-        for w_knight in w_knights:
-            w_knight.selected = False                
+    for piece in piece_list:
+        piece.selected = False
+   
 class Stage:
     def __init__(self, current_lvl):
         
@@ -822,6 +1061,8 @@ class Stage:
         rookcount = 0
         bishopcount = 0
         knightcount = 0 
+        pawncount = 0
+        queencount = 0
         
         for row in current_lvl:
             for tile in row:
@@ -873,6 +1114,65 @@ class Stage:
                 
                 if tile == 16:
                     block_list.append(Block(FLOAT_BOTTOMRIGHT_DIRT, [x, y],(TILE_SIZE)))
+                
+                if tile == 17:
+                    block_list.append(Block(SAND, [x, y], (TILE_SIZE)))
+                
+                if tile == 18:
+                    block_list.append(Block(LEFT_SAND, [x, y], (TILE_SIZE)))
+                 
+                if tile == 19:
+                    block_list.append(Block(RIGHT_SAND, [x, y], (TILE_SIZE)))
+                
+                if tile == 20:
+                    block_list.append(Block(LEFT_SAND_SURFACELESS, [x, y], (TILE_SIZE)))
+                    
+                if tile == 21:
+                    block_list.append(Block(RIGHT_SAND_SURFACELESS, [x, y], (TILE_SIZE)))
+                
+                if tile == 22:      
+                    block_list.append(Block(LEFT_WALL_SAND, [x, y], (TILE_SIZE)))
+                    
+                if tile == 23:
+                    block_list.append(Block(RIGHT_WALL_SAND, [x, y], (TILE_SIZE)))
+                
+                if tile == 24:
+                    block_list.append(Block(BOTTOM_LEFT_SAND, [x, y], (TILE_SIZE)))
+                
+                if tile == 25:
+                    block_list.append(Block(BOTTOM_RIGHT_SAND, [x, y], (TILE_SIZE)))
+                
+                if tile == 26:
+                    block_list.append(Block(FLOAT_BOTTOMLEFT_SAND, [x, y], (TILE_SIZE)))
+                
+                if tile == 27:
+                    block_list.append(Block(FLOAT_BOTTOMRIGHT_SAND, [x, y], (TILE_SIZE)))
+                    
+                if tile == 28:
+                    block_list.append(Block(FLOAT_BOTTOM_SAND, [x, y], (TILE_SIZE)))
+                
+                if tile == 29:
+                    block_list.append(Block(CONNECTED_SAND, [x, y], (TILE_SIZE)))
+                
+                if tile == 30:
+                    platform_list.append(Block(SAND_PLATFORM, [x, y], (TILE_SIZE)))
+                
+                if tile == 31:
+                    block_list.append(Block(FLOAT_SAND, [x, y], (TILE_SIZE)))
+                
+                if tile == 32:
+                    block_list.append(Block(LEFT_FLOAT_SAND, [x, y], (TILE_SIZE)))
+                
+                if tile == 33:
+                    block_list.append(Block(RIGHT_FLOAT_SAND, [x, y], (TILE_SIZE)))
+                    
+                if tile == '30p':
+                    platform_list.append(Block(SAND_PLATFORM, [x, y], (TILE_SIZE)))
+                    w_pawns.append(Piece(WHITE_PAWN, [x, y],(TILE_SIZE))) 
+                    
+                if tile == '30r':
+                    platform_list.append(Block(SAND_PLATFORM, [x, y], (TILE_SIZE)))
+                    w_rooks.append(Piece(WHITE_ROOK, [x, y],(TILE_SIZE)))
                     
                 if tile == 'wk':
                     kingcount += 1
@@ -893,7 +1193,22 @@ class Stage:
                     rookcount += 1
                     if len(w_rooks) <= rookcount:
                         w_rooks.append(Piece(WHITE_ROOK, [x, y],(TILE_SIZE))) 
-                        
+                
+                if tile == 'wp':
+                    pawncount += 1
+                    if len(w_pawns) <= pawncount:
+                        w_pawns.append(Piece(WHITE_PAWN, [x, y],(TILE_SIZE))) 
+                
+                if tile == 'wq':
+                    queencount += 1
+                    if len(w_queens) <= queencount:
+                        w_queens.append(Piece(WHITE_QUEEN, [x, y],(TILE_SIZE))) 
+
+                if tile == 'd':
+                    door_list.append(Door([x -15, y], (TILE_SIZE)))
+                
+                if tile == 'p':
+                    pressure_plate_list.append(Pressure_plate([x, y+10], (TILE_SIZE)))
                 if tile == 'bk':
                     b_king.append(Black_king(BLACK_KING, [x, y + 5], (TILE_SIZE)))
                 
@@ -911,7 +1226,113 @@ class Stage:
                 x += TILE_SIZE[0]
             y += TILE_SIZE[1]
             x = TILE_SIZE[0]/2
-        
+
+def find_available_moves(piece):
+    global offsetx, offsety, TILE_SIZE, availablemoves, block_numbers, legalmove
+    global availablemovesanimated, current_lvl
+    availablemoves = []
+    availablemovesanimated = []
+    rows = 9
+    cols = 16
+    if piece.falling:
+        availablemoves = []
+        availablemovesanimated = []
+    else:
+        availablemoves = []
+        #Stores the guide circles for the pieces in a list
+        for row in range(0, rows):
+            for col in range(0, cols):
+                new_circle_pos = [col * TILE_SIZE[0] + offsetx, row * TILE_SIZE[1] + offsety] 
+                if current_lvl[row][col] not in block_numbers:
+                    if piece in w_rooks:
+                        if row == piece.row or col == piece.col:
+                            rookobstructioncheck(row, col)
+                            pieceobstructioncheck(piece.row, piece.col, row, col)
+                            if legalmove:
+                                if new_circle_pos != piece.pos:
+                                    if current_lvl[row][col] != 'd':
+                                        availablemoves.append(new_circle_pos)                               
+                    elif piece in w_bishops:
+                        legalmove = True
+                        if abs(row - piece.row) == abs(col - piece.col) and abs(row - piece.row) > 0 or row == piece.row and col == piece.col:
+                                bishopobstructioncheck(row, col)
+                                pieceobstructioncheck(piece.row, piece.col, row, col)
+                                if legalmove:
+                                    if new_circle_pos != piece.pos:
+                                        if current_lvl[row][col] != 'd':
+                                            availablemoves.append(new_circle_pos)
+                           
+                    elif piece in w_knights:
+                        legalmove = False
+                        if (col == piece.col + 1 or col == piece.col - 1) and (row == piece.row - 2 or row == piece.row + 2):
+                            legalmove = True
+                            pieceobstructioncheck(piece.row, piece.col, row, col)
+
+                        elif (row == piece.row - 1 or row == piece.row + 1) and (col == piece.col + 2 or col == piece.col - 2):
+                            legalmove = True
+                            pieceobstructioncheck(piece.row, piece.col, row, col)
+
+                        elif row == piece.row and col == piece.col:
+                            legalmove = True
+
+                        pieceobstructioncheck(piece.row, piece.col, row, col)
+                        if current_lvl[row][col] == 'd':
+                            legalmove = False
+                        if legalmove:
+                            if new_circle_pos != piece.pos:
+                                    availablemoves.append(new_circle_pos)
+                    elif piece in w_queens:
+                        legalmove = True
+                        if abs(row - piece.row) == abs(col - piece.col) and abs(row - piece.row) > 0 or row == piece.row and col == piece.col:
+                                bishopobstructioncheck(row, col)
+                                pieceobstructioncheck(piece.row, piece.col, row, col)
+                                if legalmove:
+                                    if new_circle_pos != piece.pos:
+                                        if current_lvl[row][col] != 'd':
+                                            availablemoves.append(new_circle_pos)
+                        legalmove = True
+                        if row == piece.row or col == piece.col:
+                            rookobstructioncheck(row, col)
+                            pieceobstructioncheck(piece.row, piece.col, row, col)
+                            if legalmove:
+                                if new_circle_pos != piece.pos:
+                                    if current_lvl[row][col] != 'd':
+                                        availablemoves.append(new_circle_pos)      
+                    elif piece in w_pawns:
+                        if current_lvl[row][col] not in block_numbers:
+                            legalmove = True
+                            if piece.firstmove:
+                                if piece.row in range(row + 1, row + 3) and piece.col == col:
+                                    rookobstructioncheck(row, col)
+                                    pieceobstructioncheck(piece.row, piece.col, row, col)
+                                    if legalmove:
+                                        if new_circle_pos != piece.pos:
+                                            if current_lvl[row][col] != 'd':
+                                                availablemoves.append(new_circle_pos)      
+                            else:
+                                if piece.row == row + 1 and piece.col == col:
+                                    rookobstructioncheck(row, col)
+                                    pieceobstructioncheck(piece.row, piece.col, row, col)
+                                    if legalmove:
+                                        if new_circle_pos != piece.pos:
+                                            if current_lvl[row][col] != 'd':
+                                                availablemoves.append(new_circle_pos)  
+                    elif piece in w_kings:
+                        if piece.row in range(row - 1, row + 2) and piece.col in range(col -1, col + 2):
+                            legalmove = True
+                            pieceobstructioncheck(piece.row, piece.col, row, col)
+                            if legalmove:
+                                if new_circle_pos != piece.pos:
+                                    if current_lvl[row][col] != 'd':
+                                        availablemoves.append(new_circle_pos)
+                        
+    def draw(self, canvas):
+        for move in self.availablemoves:
+            canvas.draw_image(self.image,
+                          (self.image.get_width()/2, self.image.get_width()/2),
+                          (self.image.get_width(), self.image.get_width()),
+                          move,
+                          self.size)
 class Block:
     
     def __init__(self, image, position, size):
@@ -943,12 +1364,15 @@ class Black_king:
         global current_scene, draw_scene, scene_lvlselect1, world, current_lvl, tutorial2
         global w_kings, w_bishops, w_rooks, w_knights, block_list, piece_list, crate_list, piece_positions, b_king
         #spawns and draws the blocks
+
         canvas.draw_image(self.image,
-                          (self.image.get_width()/2, self.image.get_width()/2),
-                          (self.image.get_width(), self.image.get_width()),
+                          (BUTTON_SIZE[0]/2, BUTTON_SIZE[0]/2),
+                          (BUTTON_SIZE[0], BUTTON_SIZE[0]),
                           self.pos,
                           self.size,
                           self.rotation)
+    def update(self):
+        global current_scene, positions
         if self.death == True:
             self.animated = True
             self.rotation += 0.1
@@ -959,6 +1383,7 @@ class Black_king:
             
         
         if self.animated == True and self.death == False:
+            positions = []
             DEATH_SOUND.play()
             self.rotation += 0.1
             self.vel_y += GRAVITY
@@ -968,7 +1393,11 @@ class Black_king:
             self.dead = True
             self.animated = False
             if current_scene not in fulltutorial_list:
-                current_scene = 'level select 1'
+                if current_scene in world_1:
+                    current_scene = 'level select 1'
+                elif current_scene in world_2:
+                    current_scene = 'level select 2'
+        
 class Crate:
     
     def __init__(self, position, size, piecestobreak):
@@ -1009,7 +1438,6 @@ class Crate:
                     if crate.row - 1 == piece.row and crate.col == piece.col:
                         self.piecesoncrate = 1
                         if self.oneoncrate == False:
-                            CRATECRACK.play()
                             self.oneoncrate = True
                         for piece in piece_list:
                             if crate.row - 2 == piece.row and crate.col == piece.col: 
@@ -1031,6 +1459,9 @@ class Piece:
         self.row = int(self.pos[1] // TILE_SIZE[1])
         self.newpos = False
         self.animated = False
+        self.firstmove = True
+        self.upgrade = False
+        self.animationcount = 0
     def draw(self, canvas):
         #spawns and draws the bricks
         canvas.draw_image(self.image,
@@ -1040,9 +1471,8 @@ class Piece:
                           self.size)
         
     
-    
     def update(self):
-        global current_scene, b_kingtouchcount
+        global current_scene, b_kingtouchcount, pressure_plate_list
         #adds gravity
         self.col = int(self.pos[0] // TILE_SIZE[0])
 
@@ -1085,14 +1515,18 @@ class Piece:
                 #checks if there is a piece beneath the piece
                 if [self.pos[0], self.pos[1] + 80] not in piece_positions:
                     self.falling = True
-                                
             
             for crate in crate_list:
                 if self.pos[0] == crate.pos[0] and self.pos[1] + 75 != crate.pos[1]:
                     #checks if there is a piece beneath the piece
                     if [self.pos[0], self.pos[1] + 80] not in piece_positions:
                         self.falling = True
-                        
+            for platform in platform_list:
+
+                if self.pos[0] == platform.pos[0] and self.pos[1] == platform.pos[1]:
+                    if [self.pos[0], self.pos[1] + 80] not in piece_positions:
+                        self.falling = True
+            
         #checks if pieces are touching blocks
         for block in block_list:             
             if obj_collision(self.pos, self.size[0]/2, self.size[0]/2, 
@@ -1111,7 +1545,25 @@ class Piece:
                 self.vel_y = 0
                 self.pos[1] = crate.pos[1] - 75
                 self.falling = False
+
+        if self.row < 9:        
+            for platform in platform_list:
+                if self.pos[1] == platform.pos[1]:
+                    self.falling = True 
+                if int(self.pos[1]) == platform.pos[1] + 6 or int(self.pos[1]) == platform.pos[1]:
+                    if current_lvl[self.row+1][self.col] == 30 or current_lvl[self.row+1][self.col] == '30p':
+                        self.pos[1] = platform.pos[1] + 6
+                        self.vel_y = 0
+                        self.falling = False
+
                 
+
+        for pressure_plate in pressure_plate_list:
+
+            if [pressure_plate.pos[0], pressure_plate.pos[1] - 5] in piece_positions:
+                pressure_plate.pressed = True
+            else:
+                pressure_plate.pressed = False
 
         #checks if piece touches black king
         if b_king != []:
@@ -1122,9 +1574,103 @@ class Piece:
                 b_king[0].death = True
                 b_king[0].collidable = False
                 if current_scene not in tutorial_list + tutorial_list2 + tutorial_list3:
-                    if 'level' + current_scene[6] not in levels_completed:
-                        levels_completed.append(current_scene)
-                        levels_unlocked.append('level' + " " + str(int(current_scene[6]) + 1))
+                    if len(current_scene) < 8:
+                        if 'level' + current_scene[6] not in levels_completed:
+                            levels_completed.append(current_scene)
+                            levels_unlocked.append('level' + " " + str(int(current_scene[6]) + 1))
+                    elif len(current_scene) >= 8:
+                        if 'level' + current_scene[6] + current_scene[7] not in levels_completed:
+                            levels_completed.append(current_scene)
+                            levels_unlocked.append('level' + " " + str(int(current_scene[6])) + str(int(current_scene[7]) + 1))
+                        
+                            
+class Pressure_plate:
+    def __init__(self, position, size):
+        self.img = PRESSUREPLATE
+        self.pos = position
+        self.size = size
+        self.pressed = False
+        self.time = 0
+        
+    def draw(self, canvas):
+        w,h = IMG_SIZES[PRESSUREPLATE]
+        COLS = 21
+        ROWS = 1
+        col = self.time%COLS
+        row = self.time//COLS
+        canvas.draw_image(self.img, 
+                         [w/2 + w*col,h/2 + h*row], 
+                         [w,h], 
+                         self.pos, 
+                         self.size)
+        
+    def update(self):
+        global door_list
+        if self.pressed:
+            if self.time < 10:
+                self.time += 2
+            for door in door_list:
+                door.activated = True
+        else:
+            if self.time > 0:
+                self.time -= 2
+            for door in door_list:
+                door.activated = False
+class Door:
+    def __init__(self, position, size):
+        self.img = DOORS
+        self.pos = position
+        self.size = size
+        self.closed = True
+        self.openanimation = False
+        self.closeanimation = False
+        self.time = 0
+        self.activated = False
+        
+    def draw(self, canvas):
+        if not self.openanimation:
+            w,h = IMG_SIZES[DOORS]
+            COLS = 1
+            ROWS = 3
+            canvas.draw_image(self.img, 
+                                      [w/2,h/2], 
+                                      [w,h], 
+                                      self.pos, 
+                                      self.size)
+        if self.openanimation or self.closeanimation:
+            w,h = IMG_SIZES[DOORS]
+            COLS = 1
+            ROWS = 3
+            col = self.time%COLS
+            row = self.time//COLS
+            canvas.draw_image(self.img, 
+                             [w/2 + w*col,h/2 + h*row], 
+                             [w,h], 
+                             self.pos, 
+                             self.size)
+    def update(self):
+        COLS = 1
+        ROWS = 3
+        if self.activated:
+            self.closeanimation = False
+            self.openanimation = True
+        elif self.time != 0:
+            self.openanimation = False
+            self.closeanimation = True
+        else:
+            self.openanimation = False
+            self.closeanimation = False
+        if self.openanimation:
+            if self.time < 3:
+                DOOR_OPEN.rewind()
+                DOOR_OPEN.play()
+                self.time += 1
+                
+        if self.closeanimation:
+            if self.time > 0:
+                self.time -= 1
+                if self.time == 2:
+                    DOOR_CLOSE.play()
 
 class Dialogue:
     def __init__(self, position, message):
@@ -1195,7 +1741,13 @@ class Musicsfx:
             if self.volume < 0.01:
                 self.sound.rewind()
             
-        
+def fadeoutothers(fadeinsound):
+    for song in music_list:
+        if song != fadeinsound:
+            song.fadeout()
+        else:
+            song.fadein()
+    
 def obj_collision(obj1_pos, obj1_left, obj1_right, obj1_up,
                   obj1_down, obj2_pos,
                   obj2_left, obj2_right, obj2_up, obj2_down):
@@ -1205,8 +1757,39 @@ def obj_collision(obj1_pos, obj1_left, obj1_right, obj1_up,
         #if the entity's up or down side is within the other entity
         if (obj1_pos[1] + obj1_down + obj2_up > obj2_pos[1] 
         and obj2_pos[1] > obj1_pos[1] - obj1_up - obj2_down):
-            return True     
-
+            return True  
+        
+class Animated_circle:
+    def __init__(self, position, time, delay):
+        self.img = BLACK_CIRCLES
+        self.pos = position
+        self.size = (45, 45)
+        self.pressed = False
+        self.time = time
+        self.delay = delay
+        
+    def draw(self, canvas):
+        w,h = IMG_SIZES[BLACK_CIRCLES]
+        COLS = 24
+        ROWS = 1
+        col = self.time%COLS
+        row = self.time//COLS
+        canvas.draw_image(self.img, 
+                         [w/2 + w*col,h/2 + h*row], 
+                         [w,h], 
+                         self.pos, 
+                         self.size)
+        
+    def update(self):
+        global circle_time, delay
+        COLS = 24
+        self.delay += 1
+        if self.delay % 3 == 0:
+            self.time += 1
+            if self.time >= 24:
+                self.time = 0
+        circle_time = self.time
+        delay = self.delay
 def draw(canvas):
     global current_scene, buttons, button_start_game, draw_scene, scene_guide1, uncompleted_buttons_1, completed_buttons_1
     global SELECTIONBGRD, selectionbgrd_width, selectionbgrd_height, lvlbutton_x, lvlbutton_y, crates
@@ -1215,8 +1798,8 @@ def draw(canvas):
     global button_lvl2, scene_lvlselect1, LVL1_BUTTON, LVL2_BUTTON, lvlbutton_width, lvlbutton_height, WIDTH, HEIGHT, IMG_SIZES
     global button_restartlvl, current_scene, scene_lvl, WORLD1BGRD, current_lvl, LVL3_BUTTON, LVL4_BUTTON, LVL5_BUTTON, count
     global LVL6_BUTTON, LVL7_BUTTON, LVL8_BUTTON, crate_list, sound_volume, level_selection_effects, MENU_IMAGE, legalmove
-    global button_lvl1, button_lvl2, button_lvl3, button_lvl4, button_lvl5, button_lvl6, button_lvl7, button_lvl8, guidemenu
-    
+    global button_lvl1, button_lvl2, button_lvl3, button_lvl4, button_lvl5, button_lvl6, button_lvl7, button_lvl8, upgrademenu
+    global availablemoves, availablemovesanimated, circle_time, delay, positions, music_list, upgradeanimation
     if current_scene in world_1:
         button_levelback = Button([WIDTH/2 - 570,HEIGHT/2 - 310], (lvlbutton_width/9, lvlbutton_height/9), BACK_BUTTON, 'level select 1') 
     elif current_scene in world_2:
@@ -1229,10 +1812,10 @@ def draw(canvas):
         button_restartlvl = Button([WIDTH/2 - 450,HEIGHT/2 - 310], (lvlbutton_width/9, lvlbutton_height/9), RESTART_BUTTON, current_scene)
         button_guide = Button([WIDTH/2 - 330,HEIGHT/2 - 310], (lvlbutton_width/9, lvlbutton_height/9), GUIDE_BUTTON, 'guide') 
         
-    scene_lvl = Scene('level 1', [button_restartlvl, button_levelback, button_guide])
+    scene_lvl = Scene('level 1', [button_restartlvl, button_levelback])
     scene_guide1 = Scene('guide 1', [button_guide1])
     scene_guide2 = Scene('guide 2', [button_guide2])
-    scene_tutorial35 = Scene('tutorial 34', [button_restartlvl, button_guide,button_hint1])
+    scene_tutorial34 = Scene('tutorial 34', [button_restartlvl, button_guide,button_hint1])
    
     
     for i in range(1, 9):
@@ -1241,13 +1824,13 @@ def draw(canvas):
         elif world_1[i-1] in levels_unlocked:
             if i != 1:
                 world_1_buttons[i-1] = uncompleted_buttons_1[i-2]
-        if world_2[i-1] in levels_completed:
-            world_2_buttons[i-1] = completed_buttons_2[i-1]
-        elif world_2[i-1] in levels_unlocked:
-            world_2_buttons[i-1] = uncompleted_buttons_2[i-2]
+    
+    for i in range(9, 17):
+        if world_2[i-9] in levels_completed:
+            world_2_buttons[i-9] = completed_buttons_2[i-9]
+        elif world_2[i-9] in levels_unlocked:
+            world_2_buttons[i-9] = uncompleted_buttons_2[i-9]
 
-        
-            
     IMG_SIZES = {START_BUTTON: (958, 383),
              TUTORIAL_BUTTON: (958, 383),
              LVL1_BUTTON: (BUTTON_SIZE),
@@ -1299,8 +1882,11 @@ def draw(canvas):
              LVL15_UNCOMPLETED: (BUTTON_SIZE),
              LVL15_COMPLETED: (BUTTON_SIZE),
              LVL16_UNCOMPLETED: (BUTTON_SIZE),
-             LVL16_COMPLETED: (BUTTON_SIZE)}  
-
+             LVL16_COMPLETED: (BUTTON_SIZE),
+             DOORS: (BUTTON_SIZE),
+             PRESSUREPLATE: (640, 640),
+             NEWMOVE: (BUTTON_SIZE),
+             BLACK_CIRCLES: (BUTTON_SIZE)}  
 
     button_levels1 = []
     for i in range(1,9):
@@ -1315,21 +1901,16 @@ def draw(canvas):
         
     button_levels2 = []
     #creates buttons for levels in world 2
-    for i in range(9, 17):
+    for i in range(9, 13):
         if i == 9:
             lvlbutton_x = WIDTH/2 - 450
-            lvlbutton_y = HEIGHT/2 - 93
-        elif i == 13:
-            lvlbutton_x = WIDTH/2 - 450
-            lvlbutton_y = HEIGHT/2 + 180
-        button_levels2.append(Button([lvlbutton_x,lvlbutton_y], (lvlbutton_width/4, lvlbutton_height/4), world_2_buttons[i-16], 'level ' + str(i)))
+            lvlbutton_y = HEIGHT/2 
+        button_levels2.append(Button([lvlbutton_x,lvlbutton_y], (lvlbutton_width/4, lvlbutton_height/4), world_2_buttons[i-9], 'level ' + str(i)))
         lvlbutton_x += 300
             
     if current_scene == 'menu':
-        menu_effects.fadein()
+        fadeoutothers(menu_effects)
         TALKING_SOUND.rewind()
-        tutorial_sfx.fadeout()
-        world_1_sfx.fadeout()
         canvas.draw_image(MENU_IMAGE, 
                       (WIDTH / 2, HEIGHT / 2),
                       (WIDTH, HEIGHT),
@@ -1337,9 +1918,7 @@ def draw(canvas):
                       (WIDTH, HEIGHT))
         draw_scene = scene_menu
     if current_scene == 'level select 1':
-        menu_effects.fadeout()
-        tutorial_sfx.fadeout()
-        world_1_sfx.fadein()
+        fadeoutothers(world_1_sfx)
         scene_lvlselect1 = Scene('level select 1', button_levels1 + [button_menu] + [button_next1])
         
         draw_scene = scene_lvlselect1
@@ -1350,18 +1929,18 @@ def draw(canvas):
                       (WIDTH, HEIGHT))
     
     if current_scene == 'level select 2' or current_scene in world_2:
-        
-        canvas.draw_image(OCEANBGRD, 
+        fadeoutothers(world_2_sfx)
+        canvas.draw_image(SELECTIONBGRD2, 
                       (selectionbgrd_width / 2, selectionbgrd_height / 2),
                       (selectionbgrd_width, selectionbgrd_height),
                       (WIDTH / 2, HEIGHT / 2),
                       (WIDTH, HEIGHT))
         
-        scene_lvlselect2 = Scene('level select 2', button_levels2 + [button_lvlselect1] + [button_next2])
+        scene_lvlselect2 = Scene('level select 2', button_levels2 + [button_lvlselect1])
         draw_scene = scene_lvlselect2
-        
+          
     if current_scene in levels:
-        guidemenu = False   
+        upgrademenu = False   
         if current_scene in world_1 or current_scene in fulltutorial_list:
             width, height = IMG_SIZES[WORLD1BGRD]
             canvas.draw_image(WORLD1BGRD, 
@@ -1369,71 +1948,204 @@ def draw(canvas):
                       (width, height),
                       (WIDTH / 2, HEIGHT / 2),
                       (WIDTH, HEIGHT))
-            
-            
+        
+        elif current_scene in world_2 or current_scene == 'upgrade piece':
+            canvas.draw_image(WORLD2BGRD, 
+                      (selectionbgrd_width / 2, selectionbgrd_height / 2),
+                      (selectionbgrd_width, selectionbgrd_height),
+                      (WIDTH / 2, HEIGHT / 2),
+                      (WIDTH, HEIGHT))
+            fadeoutothers(world_2_sfx)
         if current_scene not in fulltutorial_list:    
             draw_scene = scene_lvl
-            menu_effects.fadeout()
-            world_1_sfx.fadein()
+            fadeoutothers(world_1_sfx)
         else:
-            tutorial_sfx.fadein()
-            menu_effects.fadeout()
+            fadeoutothers(tutorial_sfx)
+        if current_scene in world_2:
+            fadeoutothers(world_2_sfx)
         for block in block_list:
             block.draw(canvas)
-        
-       
+        for platform in platform_list:
+            platform.draw(canvas)
+        for door in door_list:
+            door.draw(canvas)
+            door.update()
+        for pressure_plate in pressure_plate_list:
+            pressure_plate.draw(canvas)
+            pressure_plate.update()
             
+        positions = []
         piece_positions = []    
         if w_kings != []:
             for w_king in w_kings:
-                w_king.draw(canvas)
                 if w_king in piece_list:
                     piece_list.remove(w_king)
+                positions.append([w_king.row, w_king.col])
                 piece_list.append(w_king)
                 piece_positions.append(w_king.pos)
    
         
         if w_bishops != []:
             for w_bishop in w_bishops:
-                w_bishop.draw(canvas)
                 if w_bishop in piece_list:
-                    piece_list.remove(w_bishop)
+                    piece_list.remove(w_bishop)               
                 piece_list.append(w_bishop)
+                positions.append([w_bishop.row, w_bishop.col])
                 piece_positions.append(w_bishop.pos)
-
         
         if w_rooks != []:
             for w_rook in w_rooks:
-                w_rook.draw(canvas)
                 if w_rook in piece_list:
                     piece_list.remove(w_rook)
+                positions.append([w_rook.row, w_rook.col])
                 piece_list.append(w_rook)
                 piece_positions.append(w_rook.pos)
-
+                    
 
         if w_knights != []:
             for w_knight in w_knights:
-                w_knight.draw(canvas)
                 if w_knight in piece_list:
                     piece_list.remove(w_knight)
+                positions.append([w_knight.row, w_knight.col])  
                 piece_list.append(w_knight)
                 piece_positions.append(w_knight.pos)
+                
+        if w_queens != []:
+            for w_queen in w_queens:
+                if w_queen in piece_list:
+                    piece_list.remove(w_queen)
+                positions.append([w_queen.row, w_queen.col])  
+                piece_list.append(w_queen)
+                piece_positions.append(w_queen.pos)
+        
+        if w_pawns != []:
+            for w_pawn in w_pawns:
+                if w_pawn in piece_list:
+                    piece_list.remove(w_pawn)
+                positions.append([w_pawn.row, w_pawn.col])  
+                piece_list.append(w_pawn)
+                piece_positions.append(w_pawn.pos)
             
         for piece in piece_list:
             piece.update()
-
+    
+        if w_rooks != []:
+            for w_rook in w_rooks:
+                if not w_rook.selected:
+                    if [w_rook.row, w_rook.col] not in positions:
+                        positions.append([w_rook.row, w_rook.col])
+                w_rook.draw(canvas)
+                if w_rook.selected == True:
+                    availablemoves = []
+                    availablemovesanimated = []
+                    find_available_moves(w_rook)
+                    if [w_rook.pos[0], w_rook.pos[1]-1] in availablemoves:
+                               availablemoves.remove([w_rook.pos[0], w_rook.pos[1]-1])
+        if w_bishops != []:
+            for w_bishop in w_bishops:
+                if not w_bishop.selected:
+                    if [w_bishop.row, w_bishop.col] not in positions:
+                        positions.append([w_bishop.row, w_bishop.col])
+                w_bishop.draw(canvas)
+                if w_bishop.selected == True:
+                    if w_bishop.falling == True:
+                        availablemoves = []
+                        availablemovesanimated = []
+                    elif w_bishop.falling == False:
+                        if availablemoves == []:
+                            availablemovesanimated = []
+                            find_available_moves(w_bishop)
+                        else:
+                            availablemovesanimated = []
+                            if [w_bishop.pos[0], w_bishop.pos[1]-1] in availablemoves:
+                               availablemoves.remove([w_bishop.pos[0], w_bishop.pos[1]-1]) 
+        if w_queens != []:
+            for w_queen in w_queens:
+                if not w_queen.selected:
+                    if [w_queen.row, w_queen.col] not in positions:
+                        positions.append([w_queen.row, w_queen.col])
+                w_queen.draw(canvas)
+                if w_queen.selected == True:
+                    if w_queen.falling == True:
+                        availablemoves = []
+                        availablemovesanimated = []
+                    elif w_queen.falling == False:
+                        if availablemoves == []:
+                            availablemovesanimated = []
+                            find_available_moves(w_queen)
+                        else:
+                            availablemovesanimated = []
+                            if [w_queen.pos[0], w_queen.pos[1]-1] in availablemoves:
+                               availablemoves.remove([w_queen.pos[0], w_queen.pos[1]-1]) 
+        if w_knights != []:
+            for w_knight in w_knights:
+                if not w_knight.selected:
+                    if [w_knight.row, w_knight.col] not in positions:
+                        positions.append([w_knight.row, w_knight.col])
+                w_knight.draw(canvas)
+                if w_knight.selected == True:
+                    availablemoves = []
+                    availablemovesanimated = []
+                    find_available_moves(w_knight)
+                    if [w_knight.pos[0], w_knight.pos[1]-1] in availablemoves:
+                        availablemoves.remove([w_knight.pos[0], w_knight.pos[1]-1]) 
+        
+        if w_kings != []:
+            for w_king in w_kings:
+                if not w_king.selected:
+                    if [w_king.row, w_king.col] not in positions:
+                        availablemoves = []
+                        availablemovesanimated = []
+                        positions.append([w_king.row, w_king.col])
+                w_king.draw(canvas)
+                if w_king.selected == True:
+                    find_available_moves(w_king)
+                    if [w_king.pos[0], w_king.pos[1]-1] in availablemoves:
+                               availablemoves.remove([w_king.pos[0], w_king.pos[1]-1])
+        if w_pawns != []:
+            for w_pawn in w_pawns:
+                if not w_pawn.selected:
+                    if [w_pawn.row, w_pawn.col] not in positions:
+                        availablemoves = []
+                        availablemovesanimated = []
+                        positions.append([w_pawn.row, w_pawn.col])
+                w_pawn.draw(canvas)
+                if w_pawn.row == 0:
+                    w_pawn.upgrade = True
+                if w_pawn.selected:
+                    find_available_moves(w_pawn)
+        
         for crate in crate_list:
             crate.draw(canvas)
             crate.update()
-        
-        if crate_list != []:
-            block_numbers = list(range(1, 17)) + crates
-        else:
-            block_numbers = list(range(1, 17))
-            
+        if door_list != []:
+            if crate_list != []:
+                for door in door_list:
+                    if door.activated == True:
+                        block_numbers = list(range(1, 34)) + crates
+                    else:
+                        block_numbers = list(range(1, 34)) + crates + doors
+            elif door.activated == True:
+                block_numbers = list(range(1, 34))
+            else:
+                block_numbers = list(range(1, 34)) + doors
+        elif crate_list != []:
+            block_numbers = list(range(1, 34)) + crates
+        else:            
+            block_numbers = list(range(1, 34))
+        block_numbers.remove(30)
         if b_king != []:
+            b_king[0].update()
             b_king[0].draw(canvas)
             
+        for move in availablemoves:
+            animatedmove = Animated_circle(move, circle_time, delay)
+            availablemovesanimated.append(animatedmove)
+            
+        for moves in availablemovesanimated:
+            moves.draw(canvas)
+            moves.update()
+
         for piece in piece_list:
             if piece.falling == True:
                 legalmove = False
@@ -1451,7 +2163,6 @@ def draw(canvas):
                           (WIDTH, HEIGHT))
             
         draw_scene = scene_guide1
-        guidemenu = True
         for piece in piece_list:
             piece.selected = False
     if current_scene == 'guide 2':
@@ -1461,9 +2172,8 @@ def draw(canvas):
                       (WIDTH / 2, HEIGHT / 2),
                       (WIDTH, HEIGHT))
         draw_scene = scene_guide2
-        
+ 
     draw_scene.draw(canvas)
-    
     
     #draws tutorial scenes in the game
     if "tutorial" in current_scene:
@@ -1471,14 +2181,13 @@ def draw(canvas):
         if len(scene_and_scene_number) == 2:
             scene_num = int(scene_and_scene_number[1])
            
-            if 1 <= scene_num <= 9 or scene_num == 12 or 36 <= scene_num <= 37 or 39 <= scene_num <= 41:
+            if 1 <= scene_num <= 9 or scene_num == 12 or 26 <= scene_num <= 27 or 29 <= scene_num <= 31:
                 
                 draw_scene = scene_tutorials[scene_num]
                 cguidedialogues[scene_num].draw(canvas)
                 cguidedialogues[scene_num].update()
-            elif scene_num == 10 or scene_num == 34:
+            elif scene_num == 10 or scene_num == 24:
                 draw_scene = scene_tutorials[scene_num]
-                
                 
                 if b_king != []:    
                     if b_king[0].dead == True:
@@ -1514,7 +2223,7 @@ def draw(canvas):
                 draw_scene = scene_tutorials[scene_num]
                 draw_scene.draw(canvas)
                 
-            elif 17 <= scene_num <= 33:
+            elif 17 <= scene_num <= 23:
                 
                 draw_scene = scene_tutorials[scene_num]
                 cguidedialogues[scene_num-2].draw(canvas)
@@ -1522,14 +2231,48 @@ def draw(canvas):
                 
         
         elif len(scene_and_scene_number) == 3:
-            draw_scene = scene_tutorials[39]
-            cguidedialogues[33].draw(canvas)
-            cguidedialogues[33].update()
+            unselectpieces()
+            availablemoves = []
+            availablemovesanimated = []
+            unselectpieces()
+            draw_scene = scene_tutorials[29]
+            cguidedialogues[23].draw(canvas)
+            cguidedialogues[23].update()
         else:
-            draw_scene = scene_tutorials[40]
-            cguidedialogues[34].draw(canvas)
-            cguidedialogues[34].update()
-   
+            unselectpieces()
+            availablemoves = []
+            availablemovesanimated = []
+            draw_scene = scene_tutorials[30]
+            cguidedialogues[24].draw(canvas)
+            cguidedialogues[24].update()
+    for pawn in w_pawns:
+        if pawn.upgrade:
+            upgrademenu = True
+                
+            if upgradeanimation == 0:	
+                PIECE_UPGRADE.rewind()
+                PIECE_UPGRADE.play()
+            if 320 + upgradeanimation < 640:    
+                upgradeanimation += 30
+            else:
+                upgradeanimation = 320
+            
+            canvas.draw_image(CHOOSEPIECE,
+                          (WIDTH/2, HEIGHT/2),
+                          (WIDTH, HEIGHT),
+                          (WIDTH/2, HEIGHT/2),
+                          (320 + upgradeanimation * 2, 180 + upgradeanimation))
+            button_queen = Button([WIDTH/2 - 305,HEIGHT/2], (lvlbutton_width/4+15, lvlbutton_height/4-30), NOTHING, current_level)
+            button_bishop = Button([WIDTH/2 - 96,HEIGHT/2], (lvlbutton_width/4+3, lvlbutton_height/4-30), NOTHING, current_level)
+            button_rook = Button([WIDTH/2 + 108,HEIGHT/2], (lvlbutton_width/4+3, lvlbutton_height/4-30), NOTHING, current_level)
+            button_knight = Button([WIDTH/2 + 312,HEIGHT/2], (lvlbutton_width/4+3, lvlbutton_height/4-30), NOTHING, current_level)
+            scene_upgradepiece = Scene('upgrade piece', [button_restartlvl, button_levelback, button_queen, button_bishop, button_rook, button_knight])
+            current_scene = 'upgrade piece'
+            button_upgradepieces = [button_queen, button_bishop, button_rook, button_knight]   
+            for button in button_upgradepieces:
+                button.draw(canvas)
+                
+            draw_scene = scene_upgradepiece
 current_scene = 'menu'    
 button_start_game = Button([WIDTH/2,HEIGHT/2],
                            (button_width/2, button_height/2), 
@@ -1541,8 +2284,10 @@ button_tutorial = Button([WIDTH/2,HEIGHT/2 + 200],
 
 menu_effects = Musicsfx(LEVEL_SELECT_MUSIC, 0)
 world_1_sfx = Musicsfx(WORLD1_MUSIC, 0)
+world_2_sfx = Musicsfx(WORLD2_MUSIC, 0)
 tutorial_sfx = Musicsfx(TUTORIAL_MUSIC, 0)
 
+music_list = [menu_effects, world_1_sfx, tutorial_sfx, world_2_sfx]
 
 cguidemessages = [
     '',
@@ -1552,30 +2297,20 @@ cguidemessages = [
     "Each level has a black king in   a designated spot.",
     "Your goal is simple.             ELIMINATE  him.",
     "Try it out! Click on your white  king to select it!",
-    "Remember, kings can only move    one spot in each direction.",
+    "The black dots are the piece's   available moves.",
     "Also, the game remembers what    you've selected.",
     "So don't worry about repeatedly  selecting the piece as you move.",
     "Great job! You ELIMINATED him    real good!",
     "Let's make sure you're familiar  with the rules of chess.",
     "Here are the movement patterns   for each piece in the game.",
-    "I'm going to recap to make sure  this is clear.",
-    "Kings can only move one spot in  each direction.",
-    "Bishops can move diagonally. ",
-    "Knights can move in any L shape  pattern.",
-    "Rooks can move in any straight   line.",
-    "Queens are are a rook, king,     and bishop combined.",
-    "Lastly, pawns can move one tile  forward.",
-    "The only exception being on its  first move.",
-    "Don't worry if you can't         remember!",
-    "You can open the guide at any    point during a level!",
     "Great! You now know how chess    works!",
     "Now let's figure out the         climbing part of chess climb!",
     "Chess pieces in this game are    affected by gravity.",
     "There's also a rule that applies to all pieces except the knight.",
     "Their paths can blocked by       pieces or blocks!",
     'However, knights can "jump" over pieces and blocks!',
+    "One last thing! Your pieces can fall on the king to kill it. ",
     "Now try this level! ",
-    "I'll be here for you if you need any help! ",
     "The king is blocking the way of  the rook!",
     "Try finding a way to clear the   rook's path!",
     "Great work! ",
@@ -1587,7 +2322,7 @@ cguidemessages = [
 cguidedialogues = []
 dialogue_tick = 1
 #stores chess guide's dialogues
-for i in range(38):
+for i in range(28):
     if i == 10 or i == 14:
         cguidedialogues.append(None)
     else:
@@ -1596,20 +2331,20 @@ for i in range(38):
         
 button_tutorials = []
 #allows player to click to go through tutorial dialogues
-for i in range(1,41):
+for i in range(1,32):
     if i == 15 or i == 16:
         button_tutorials.append(Button([WIDTH/2, HEIGHT/2], (button_width/4, button_height/4), NEXT_BUTTON, 'tutorial ' + str(i + 1)))
     
-    elif i == 37:
+    elif i == 27:
         button_tutorials.append(Button([WIDTH/2, HEIGHT/2], (WIDTH, HEIGHT), NOTHING, 'menu'))
         
-    elif i == 38:
-        button_tutorials.append(Button([WIDTH/2 + 500,HEIGHT/2 - 310], (button_width/5, button_height/5), HINT_BUTTON, 'tutorial 34 hint'))
+    elif i == 28:
+        button_tutorials.append(Button([WIDTH/2 + 500,HEIGHT/2 - 310], (button_width/5, button_height/5), HINT_BUTTON, 'tutorial 24 hint'))
         
-    elif i == 39:
-        button_tutorials.append(Button([WIDTH/2,HEIGHT/2], (WIDTH, HEIGHT), NOTHING, 'tutorial 34 hint 2'))
-    elif i == 40:
-        button_tutorials.append(Button([WIDTH/2,HEIGHT/2], (WIDTH, HEIGHT), NOTHING, 'tutorial 34'))
+    elif i == 29:
+        button_tutorials.append(Button([WIDTH/2,HEIGHT/2], (WIDTH, HEIGHT), NOTHING, 'tutorial 24 hint 2'))
+    elif i == 30:
+        button_tutorials.append(Button([WIDTH/2,HEIGHT/2], (WIDTH, HEIGHT), NOTHING, 'tutorial 24'))
     else:
         button_tutorials.append(Button([WIDTH/2,HEIGHT/2], (WIDTH, HEIGHT), NOTHING, 'tutorial ' + str(i + 1)))
 
@@ -1629,44 +2364,46 @@ for i in range(1,9):
 
 button_levels2 = []
 #creates buttons for levels in world 2
-for i in range(9, 17):
-    if i == 9:
-        lvlbutton_x = WIDTH/2 - 450
-        lvlbutton_y = HEIGHT/2 - 93
-    elif i == 13:
-        lvlbutton_x = WIDTH/2 - 450
-        lvlbutton_y = HEIGHT/2 + 180
-    button_levels2.append(Button([lvlbutton_x,lvlbutton_y], (lvlbutton_width/4, lvlbutton_height/4), world_2_buttons[i-9], 'level ' + str(i)))
-    lvlbutton_x += 300
-        
-        
+for i in range(9, 13):
+        if i == 9:
+            lvlbutton_x = WIDTH/2 - 450
+            lvlbutton_y = HEIGHT/2
+        button_levels2.append(Button([lvlbutton_x,lvlbutton_y], (lvlbutton_width/4, lvlbutton_height/4), world_2_buttons[i-9], 'level ' + str(i)))
+        lvlbutton_x += 300
+             
 button_guide = Button([WIDTH/2 - 570,HEIGHT/2 - 310], (lvlbutton_width/9, lvlbutton_height/9), GUIDE_BUTTON, 'guide')     
 button_guide1 = Button([WIDTH/2, HEIGHT/2], (button_width/4, button_height/4), NEXT_BUTTON, 'guide 2')
 button_guide2 = Button([WIDTH/2, HEIGHT/2], (button_width/4, button_height/4), NEXT_BUTTON, current_level)
 button_hint1 = Button([WIDTH/2 + 500,HEIGHT/2 - 310], (button_width/5, button_height/5), HINT_BUTTON, 'tutorial 35 hint') 
-button_restartlvl = Button([WIDTH/2 - 450,HEIGHT/2 - 310], (lvlbutton_width/9, lvlbutton_height/9), RESTART_BUTTON, 'tutorial 34') 
+button_restartlvl = Button([WIDTH/2 - 450,HEIGHT/2 - 310], (lvlbutton_width/9, lvlbutton_height/9), RESTART_BUTTON, 'tutorial 24') 
 button_levelback = Button([WIDTH/2 - 570,HEIGHT/2 - 310], (lvlbutton_width/9, lvlbutton_height/9), BACK_BUTTON, 'level select 1') 
 button_tutoriallevelback = Button([WIDTH/2 - 570,HEIGHT/2 - 310], (lvlbutton_width/9, lvlbutton_height/9), BACK_BUTTON, 'menu') 
 button_menu = Button([WIDTH/2 - 475,HEIGHT/2 - 280], (button_width/4, button_height/4), MENU_BACK_BUTTON, 'menu') 
 button_lvlselect1 = Button([WIDTH/2 - 475,HEIGHT/2 - 280], (button_width/4, button_height/4), MENU_BACK_BUTTON, 'level select 1') 
 button_next1 = Button([WIDTH/2 + 490,HEIGHT/2 - 280], (button_width/4, button_height/4), NEXT_BUTTON, 'level select 2') 
 button_next2 = Button([WIDTH/2 + 490,HEIGHT/2 - 280], (button_width/4, button_height/4), NEXT_BUTTON, 'level select 3') 
+button_queen = Button([WIDTH/2 + 490,HEIGHT/2 - 280], (button_width/4, button_height/4), NEWMOVE, current_level)
+button_bishop = Button([WIDTH/2 + 490,HEIGHT/2 - 280], (button_width/4, button_height/4), NEWMOVE, current_level)
+button_rook = Button([WIDTH/2 + 490,HEIGHT/2 - 280], (button_width/4, button_height/4), NEWMOVE, current_level)
+button_knight = Button([WIDTH/2 + 490,HEIGHT/2 - 280], (button_width/4, button_height/4), NEWMOVE, current_level)
 scene_menu = Scene('menu', [button_start_game, button_tutorial])
 scene_lvlselect1 = Scene('level select 1', button_levels1 + [button_menu] + [button_next1])
 scene_lvlselect2 = Scene('level select 2', button_levels2 + [button_lvlselect1] + [button_next2])
-scene_lvl = Scene('level 1', [button_restartlvl, button_levelback, button_guide])
+scene_lvl = Scene('level 1', [button_restartlvl, button_levelback])
+scene_upgradepiece = Scene('upgrade piece', [button_restartlvl, button_levelback, button_queen, button_bishop, button_rook, button_knight])
 scene_tutorials = []
-
-for i in range(1,42):
-    if i == 35:
+for i in range(1,32):
+    if i == 25:
         scene_tutorials.append(Scene('tutorial ' + str(i),[button_restartlvl, button_guide, button_tutorials[i+2]]))
-    elif i == 40:
+    elif i == 30:
          scene_tutorials.append(Scene('tutorial 34 hint',[button_tutorials[i-2]]))
-    elif i == 41:
+    elif i == 31:
          scene_tutorials.append(Scene('tutorial 34 hint 2',[button_tutorials[i-2]]))    
     else: 
         scene_tutorials.append(Scene('tutorial ' + str(i),[button_tutorials[i-2]] if i != 11 else []))
 
+
+        
 draw_scene = scene_menu
 
 frame = simplegui.create_frame("Chess Climb", WIDTH, HEIGHT)
