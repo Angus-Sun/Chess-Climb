@@ -2309,7 +2309,7 @@ cguidemessages = [
     "There's also a rule that applies to all pieces except the knight.",
     "Their paths can blocked by       pieces or blocks!",
     'However, knights can "jump" over pieces and blocks!',
-    "One last thing! Your pieces can fall on the king to kill it. ",
+    "One last thing! Your pieces can  fall on the king to kill it. ",
     "Now try this level! ",
     "The king is blocking the way of  the rook!",
     "Try finding a way to clear the   rook's path!",
