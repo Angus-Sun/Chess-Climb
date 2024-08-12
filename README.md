@@ -8,7 +8,7 @@ Built with python using the simplegui module.
 You can run the game using two methods
 
 #### 1. **Run through Codeskulptor**
-Copy and paste the source code into py3.codeskulptor.org and click top most left button to run.
+Copy and paste the source code into [code skulptor](https://py3.codeskulptor.org/) and click top most left button to run.
 
 #### 2. **Run locally**
 1. Clone this repository:
